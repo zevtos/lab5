@@ -16,7 +16,7 @@ public class Add extends Command {
     private final CollectionManager collectionManager;
 
     public Add(Console console, CollectionManager collectionManager) {
-        super("add {element}", "добавить новый элемент в коллекцию");
+        super("add {element}", "добавить новый объект Ticket в коллекцию");
         this.console = console;
         this.collectionManager = collectionManager;
     }
@@ -29,16 +29,16 @@ public class Add extends Command {
     public boolean apply(String[] arguments) {
         try {
             if (!arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
-            console.println("* Создание нового продукта:");
+            console.println("* Создание нового билета:");
             collectionManager.add((new TicketForm(console, collectionManager)).build());
-            console.println("Продукт успешно добавлен!");
+            console.println("Билет успешно добавлен!");
             return true;
 
         } catch (InvalidNumberOfElementsException exception) {
             console.printError("Неправильное количество аргументов!");
             console.println("Использование: '" + getName() + "'");
         } catch (InvalidFormException exception) {
-            console.printError("Поля продукта не валидны! Продукт не создан!");
+            console.printError("Поля билета не валидны! Билет не создан!");
         } catch (InvalidScriptInputException ignored) {}
         return false;
     }

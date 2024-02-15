@@ -68,7 +68,7 @@ public class CollectionManager {
     }
 
     /**
-     * Содержит ли колекции Ticket
+     * Содержит ли коллекции Ticket
      */
     public boolean isСontain(Ticket e) {
         return e == null || byId(e.getId()) != null;
@@ -121,6 +121,13 @@ public class CollectionManager {
         update();
         return true;
     }
+    public boolean remove(Ticket a){
+        if (a == null) return false;
+        tickets.remove(a.getId());
+        collection.remove(a);
+        update();
+        return true;
+    }
 
     /**
      * Фиксирует изменения коллекции
@@ -140,7 +147,9 @@ public class CollectionManager {
     public void clearCollection() {
         collection.clear();
     }
-
+    public int collectionSize(){
+        return collection.size();
+    }
     @Override
     public String toString() {
         if (collection.isEmpty()) return "Коллекция пуста!";
@@ -155,5 +164,10 @@ public class CollectionManager {
     private void loadCollection() {
         collection = (LinkedList<Ticket>) dumpManager.readCollection();
         lastInitTime = LocalDateTime.now();
+    }
+
+    public Ticket getFirst() {
+        if (collection.isEmpty()) return null;
+        return collection.peek();
     }
 } 

@@ -1,9 +1,7 @@
 package ru.itmo.prog.lab5.models.forms;
 
-import ru.itmo.prog.lab5.exceptions.IncorrectInputInScriptException;
 import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
 import ru.itmo.prog.lab5.models.Color;
-import ru.itmo.prog.lab5.models.OrganizationType;
 import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.Console;
 

@@ -120,4 +120,14 @@ public class Ticket extends Element {
     public int hashCode() {
         return Objects.hash(id, name, creationDate, coordinates, price, discount, comment, type, person);
     }
+    public void update(Ticket Ticket) {
+        this.name = Ticket.name;
+        this.coordinates = Ticket.coordinates;
+        this.creationDate = Ticket.creationDate;
+        this.price = Ticket.price;
+        this.discount = Ticket.discount;
+        this.comment = Ticket.comment;
+        this.type = Ticket.type;
+        this.person = Ticket.person;
+    }
 }
