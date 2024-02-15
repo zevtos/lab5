@@ -1,11 +1,13 @@
-package ru.itmo.prog.lab5.ticketmanagement.models;
+package ru.itmo.prog.lab5.models;
 
 import ru.itmo.prog.lab5.utility.Element;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Ticket extends Element {
+
     private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -15,7 +17,6 @@ public class Ticket extends Element {
     private String comment; //Поле может быть null
     private TicketType type; //Поле может быть null
     private Person person; //Поле не может быть null
-    private static int newId = 1;
 
     public Ticket(Integer id, String name, Coordinates coordinates, ZonedDateTime creationDate, double price, Long discount, String comment, TicketType type, Person person) {
         this.id = id;
@@ -31,10 +32,6 @@ public class Ticket extends Element {
     public Ticket(Integer id, String name, Coordinates coordinates, double price, Long discount, String comment, TicketType type, Person person) {
         this(id, name, coordinates, ZonedDateTime.now(), price, discount, comment, type, person);
     }
-    public Ticket(String name, Coordinates coordinates, double price, Long discount, String comment, TicketType type, Person person) {
-        this(newId++, name, coordinates, ZonedDateTime.now(), price, discount, comment, type, person);
-    }
-
     @Override
     public String toString() {
         return "ticket{\"id\": " + id + ", " +
@@ -96,5 +93,18 @@ public class Ticket extends Element {
 
     public Person getPerson() {
         return person;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket that = (Ticket) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, creationDate, coordinates, price, discount, comment, type, person);
     }
 }

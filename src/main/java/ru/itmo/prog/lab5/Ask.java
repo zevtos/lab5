@@ -1,13 +1,11 @@
 package ru.itmo.prog.lab5;
 
-import ru.itmo.prog.lab5.ticketmanagement.models.*;
-import ru.itmo.prog.lab5.utility.Console;
-import ru.itmo.prog.lab5.utility.StandardConsole;
+import ru.itmo.prog.lab5.models.*;
+import ru.itmo.prog.lab5.utility.console.Console;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 class Ask {

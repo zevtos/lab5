@@ -1,6 +1,8 @@
-package ru.itmo.prog.lab5.ticketmanagement.models;
+package ru.itmo.prog.lab5.models;
 
 import ru.itmo.prog.lab5.utility.Validatable;
+
+import java.util.Objects;
 
 public class Coordinates implements Validatable {
     private double x;
@@ -15,5 +17,16 @@ public class Coordinates implements Validatable {
     }
     public boolean validate() {
         return y != null && y > -420;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinates that = (Coordinates) o;
+        return Objects.equals(x, that.x) && Objects.equals(y, that.y);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

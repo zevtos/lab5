@@ -1,4 +1,4 @@
-package ru.itmo.prog.lab5.ticketmanagement.models;
+package ru.itmo.prog.lab5.models;
 
 public enum Color {
     GREEN,

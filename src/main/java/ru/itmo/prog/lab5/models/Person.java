@@ -1,8 +1,9 @@
-package ru.itmo.prog.lab5.ticketmanagement.models;
+package ru.itmo.prog.lab5.models;
 
 import ru.itmo.prog.lab5.utility.Validatable;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Person implements Validatable {
     private java.time.LocalDateTime birthday; //Поле может быть null
@@ -28,5 +29,16 @@ public class Person implements Validatable {
         if (height != null && height <= 0) return false;
         if (passportID == null) return false;
         return hairColor != null;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person that = (Person) o;
+        return Objects.equals(passportID, that.passportID);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(birthday, passportID);
     }
 }

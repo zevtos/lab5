@@ -2,9 +2,17 @@ package ru.itmo.prog.lab5.managers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ru.itmo.prog.lab5.utility.Console;
+import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
+import ru.itmo.prog.lab5.models.Ticket;
+import ru.itmo.prog.lab5.utility.console.Console;
+import ru.itmo.prog.lab5.utility.LocalDateAdapter;
 
+import java.io.*;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 public class DumpManager {
     private final Gson gson = new GsonBuilder()
@@ -23,10 +31,11 @@ public class DumpManager {
 
     /**
      * Записывает коллекцию в файл.
+     *
      * @param collection коллекция
      */
-    public void writeCollection(Collection<Product> collection) {
-        try (PrintWriter collectionPrintWriter = new PrintWriter(new File(fileName))) {
+    public void writeCollection(Collection<Ticket> collection) {
+        try (PrintWriter collectionPrintWriter = new PrintWriter(fileName)) {
             collectionPrintWriter.println(gson.toJson(collection));
             console.println("Коллекция успешна сохранена в файл!");
         } catch (IOException exception) {
@@ -35,30 +44,32 @@ public class DumpManager {
     }
 
     /**
-     * Считывает коллекцию из файл.
+     * Считывает коллекцию из файла.
+     *
      * @return Считанная коллекция
      */
-    public Collection<Product> readCollection() {
+    public Collection<Ticket> readCollection() {
         if (fileName != null && !fileName.isEmpty()) {
             try (var fileReader = new FileReader(fileName)) {
-                var collectionType = new TypeToken<PriorityQueue<Product>>() {}.getType();
+                var collectionType = new TypeToken<LinkedList<Ticket>>() {
+                }.getType();
                 var reader = new BufferedReader(fileReader);
 
                 var jsonString = new StringBuilder();
 
                 String line;
-                while((line = reader.readLine()) != null) {
+                while ((line = reader.readLine()) != null) {
                     line = line.trim();
-                    if (!line.equals("")) {
+                    if (!line.isEmpty()) {
                         jsonString.append(line);
                     }
                 }
 
-                if (jsonString.length() == 0) {
+                if (jsonString.isEmpty()) {
                     jsonString = new StringBuilder("[]");
                 }
 
-                PriorityQueue<Product> collection = gson.fromJson(jsonString.toString(),
+                LinkedList<Ticket> collection = gson.fromJson(jsonString.toString(),
                         collectionType);
 
                 console.println("Коллекция успешна загружена!");
@@ -77,6 +88,6 @@ public class DumpManager {
         } else {
             console.printError("Аргумент командной строки с загрузочным файлом не найден!");
         }
-        return new PriorityQueue<>();
+        return new LinkedList<>();
     }
 }

@@ -1,4 +1,4 @@
-package ru.itmo.prog.lab5.utility;
+package ru.itmo.prog.lab5.utility.console;
 
 import java.util.Scanner;
 
