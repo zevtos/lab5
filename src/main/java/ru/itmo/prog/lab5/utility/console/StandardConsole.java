@@ -1,9 +1,6 @@
 package ru.itmo.prog.lab5.utility.console;
 
-import ru.itmo.prog.lab5.utility.console.Console;
-
 import java.util.NoSuchElementException;
-import java.lang.IllegalStateException;
 import java.util.Scanner;
 
 /**

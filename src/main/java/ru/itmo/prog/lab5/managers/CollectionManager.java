@@ -13,14 +13,13 @@ public class CollectionManager {
     private int currentId = 1;
     private static Map<Integer, Ticket> tickets = new HashMap<>();
     private LinkedList<Ticket> collection = new LinkedList<Ticket>();
-    private LocalDateTime lastInitTime;
     private LocalDateTime lastSaveTime;
     private final DumpManager dumpManager;
 
     public CollectionManager(DumpManager dumpManager) {
-        this.lastInitTime = null;
         this.lastSaveTime = null;
         this.dumpManager = dumpManager;
+        loadCollection();
     }
     public void validateAll(Console console) {
         allTickets().values().forEach(ticket -> {
@@ -38,12 +37,6 @@ public class CollectionManager {
     }
     public static Map<Integer, Ticket> allTickets() {
         return tickets;
-    }
-    /**
-     * @return Последнее время инициализации.
-     */
-    public LocalDateTime getLastInitTime() {
-        return lastInitTime;
     }
 
     /**
@@ -163,7 +156,10 @@ public class CollectionManager {
 
     private void loadCollection() {
         collection = (LinkedList<Ticket>) dumpManager.readCollection();
-        lastInitTime = LocalDateTime.now();
+        tickets.clear();
+        for(Ticket ticket : collection){
+            tickets.put(ticket.getId(), ticket);
+        }
     }
 
     public Ticket getFirst() {

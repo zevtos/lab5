@@ -5,11 +5,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import ru.itmo.prog.lab5.models.Ticket;
-import ru.itmo.prog.lab5.utility.console.Console;
 import ru.itmo.prog.lab5.utility.LocalDateAdapter;
+import ru.itmo.prog.lab5.utility.ZonedDateAdapter;
+import ru.itmo.prog.lab5.utility.console.Console;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -19,6 +21,7 @@ public class DumpManager {
             .setPrettyPrinting()
             .serializeNulls()
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+            .registerTypeAdapter(ZonedDateTime.class, new ZonedDateAdapter())
             .create();
 
     private final String fileName;

@@ -1,7 +1,7 @@
 package ru.itmo.prog.lab5.models.forms;
 
-import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
 import ru.itmo.prog.lab5.exceptions.InvalidFormException;
+import ru.itmo.prog.lab5.exceptions.InvalidRangeException;
 import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
 import ru.itmo.prog.lab5.models.Coordinates;
 import ru.itmo.prog.lab5.utility.Interrogator;
@@ -70,6 +70,7 @@ public class CoordinatesForm extends Form<Coordinates> {
                 if (fileMode) console.println(strY);
 
                 y = Float.parseFloat(strY);
+                if (y <= -420) throw new InvalidRangeException();
                 break;
             } catch (NoSuchElementException exception) {
                 console.printError("Координата Y не распознана!");
@@ -77,6 +78,8 @@ public class CoordinatesForm extends Form<Coordinates> {
             } catch (NumberFormatException exception) {
                 console.printError("Координата Y должна быть представлена числом!");
                 if (fileMode) throw new InvalidScriptInputException();
+            } catch (InvalidRangeException exception) {
+                console.printError("Значение y должно быть больше -420");
             } catch (NullPointerException | IllegalStateException exception) {
                 console.printError("Непредвиденная ошибка!");
                 System.exit(0);

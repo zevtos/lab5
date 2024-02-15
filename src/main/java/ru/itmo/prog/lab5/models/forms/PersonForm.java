@@ -7,6 +7,7 @@ import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.Console;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -24,7 +25,7 @@ public class PersonForm extends Form<Person> {
 
     @Override
     public Person build() throws InvalidScriptInputException, InvalidFormException {
-        console.println("Введите id=x, где id это passportID, чтобы использовать person. " +
+        console.println("Введите id=x, где id это passportID, чтобы использовать данные человека. " +
                 "Любой другой ввод приведет к добавлению нового человека");
         console.prompt();
 
@@ -93,7 +94,7 @@ public class PersonForm extends Form<Person> {
         float height;
         while (true) {
             try {
-                console.println("Введите количество сотрудников:");
+                console.println("Введите рост:");
                 console.prompt();
 
                 var strHeight = Interrogator.getUserScanner().nextLine().trim();
@@ -118,8 +119,8 @@ public class PersonForm extends Form<Person> {
         }
         return height;
     }
-    private LocalDateTime askBirthday() throws InvalidScriptInputException {
-        LocalDateTime birthday;
+    private LocalDate askBirthday() throws InvalidScriptInputException {
+        LocalDate birthday;
         try {
             while (true) {
                 console.print("birthday-data-time (Exemple: " +
@@ -131,12 +132,12 @@ public class PersonForm extends Form<Person> {
                     break;
                 }
                 try {
-                    birthday = LocalDateTime.parse(line, DateTimeFormatter.ISO_DATE_TIME);
+                    birthday = LocalDate.parse(line, DateTimeFormatter.ISO_DATE_TIME);
                     break;
                 } catch (DateTimeParseException ignored) {
                 }
                 try {
-                    birthday = LocalDateTime.parse(line + "T00:00:00.0000", DateTimeFormatter.ISO_DATE_TIME);
+                    birthday = LocalDate.parse(line + "T00:00:00.0000", DateTimeFormatter.ISO_DATE_TIME);
                     break;
                 } catch (DateTimeParseException ignored) {
                 }

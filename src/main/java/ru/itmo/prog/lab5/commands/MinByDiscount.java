@@ -1,9 +1,7 @@
 package ru.itmo.prog.lab5.commands;
 
 import ru.itmo.prog.lab5.exceptions.EmptyValueException;
-import ru.itmo.prog.lab5.exceptions.InvalidFormException;
 import ru.itmo.prog.lab5.exceptions.InvalidNumberOfElementsException;
-import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
 import ru.itmo.prog.lab5.managers.CollectionManager;
 import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.utility.console.Console;
@@ -31,7 +29,9 @@ public class MinByDiscount extends Command {
         try {
             if (!arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             if (collectionManager.collectionSize() == 0) throw new EmptyValueException();
-            console.println(minByDiscount());
+
+            Ticket minTicketByDiscount = minByDiscount();
+            console.println(minTicketByDiscount);
             return true;
 
         } catch (InvalidNumberOfElementsException exception) {

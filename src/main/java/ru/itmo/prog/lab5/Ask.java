@@ -3,6 +3,7 @@ package ru.itmo.prog.lab5;
 import ru.itmo.prog.lab5.models.*;
 import ru.itmo.prog.lab5.utility.console.Console;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -41,7 +42,7 @@ class Ask {
                 passportID = console.readln().trim();
                 if (passportID.equals("exit")) throw new AskBreak();
             } while (passportID.isEmpty());
-            var birthday = askBirthday(console);
+            LocalDate birthday = askBirthday(console);
             var height = askHeight(console);
             var hairColor = askHairColor(console);
             return new Person(birthday, height, passportID, hairColor);
@@ -98,8 +99,8 @@ class Ask {
         }
     }
 
-    private static LocalDateTime askBirthday(Console console) throws AskBreak {
-        LocalDateTime birthday;
+    private static LocalDate askBirthday(Console console) throws AskBreak {
+        LocalDate birthday;
         try {
             while (true) {
                 console.print("data-time (Exemple: " +
@@ -111,12 +112,12 @@ class Ask {
                     break;
                 }
                 try {
-                    birthday = LocalDateTime.parse(line, DateTimeFormatter.ISO_DATE_TIME);
+                    birthday = LocalDate.parse(line, DateTimeFormatter.ISO_DATE_TIME);
                     break;
                 } catch (DateTimeParseException ignored) {
                 }
                 try {
-                    birthday = LocalDateTime.parse(line + "T00:00:00.0000", DateTimeFormatter.ISO_DATE_TIME);
+                    birthday = LocalDate.parse(line + "T00:00:00.0000", DateTimeFormatter.ISO_DATE_TIME);
                     break;
                 } catch (DateTimeParseException ignored) {
                 }

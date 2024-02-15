@@ -1,22 +1,26 @@
 package ru.itmo.prog.lab5.models.forms;
 
-import ru.itmo.prog.lab5.exceptions.*;
+import ru.itmo.prog.lab5.exceptions.EmptyValueException;
+import ru.itmo.prog.lab5.exceptions.InvalidFormException;
+import ru.itmo.prog.lab5.exceptions.InvalidRangeException;
+import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
 import ru.itmo.prog.lab5.managers.CollectionManager;
-import ru.itmo.prog.lab5.models.*;
+import ru.itmo.prog.lab5.models.Coordinates;
+import ru.itmo.prog.lab5.models.Person;
+import ru.itmo.prog.lab5.models.Ticket;
+import ru.itmo.prog.lab5.models.TicketType;
 import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 import java.util.NoSuchElementException;
 
 /**
- * Форма продукта.
+ * Форма билета.
  * @author maxbarsukov
  */
 public class TicketForm extends Form<Ticket> {
     private final Console console;
     private final CollectionManager collectionManager;
-
-    private final long MIN_PRICE = 0;
 
     public TicketForm(Console console, CollectionManager collectionManager) {
         this.console = console;
@@ -30,7 +34,7 @@ public class TicketForm extends Form<Ticket> {
                 askCoordinates(),
                 askPrice(),
                 askDiscount(),
-                askPartNumber(),
+                askComment(),
                 askTicketType(),
                 askPerson()
         );
@@ -39,15 +43,18 @@ public class TicketForm extends Form<Ticket> {
     }
     public Long askDiscount() throws InvalidScriptInputException {
         var fileMode = Interrogator.fileMode();
-        long discount;
+        Long discount;
         while (true) {
             try {
-                console.println("Введите цену продукта:");
+                console.println("Введите скидку билета:");
                 console.prompt();
 
                 var strPrice = Interrogator.getUserScanner().nextLine().trim();
                 if (fileMode) console.println(strPrice);
-
+                if (strPrice.isEmpty()) {
+                    discount = null;
+                    break;
+                }
                 discount = Long.parseLong(strPrice);
                 if (discount <= 0 || discount > 100) throw new InvalidRangeException();
                 break;
@@ -72,7 +79,7 @@ public class TicketForm extends Form<Ticket> {
         var fileMode = Interrogator.fileMode();
         while (true) {
             try {
-                console.println("Введите название продукта:");
+                console.println("Введите название билета:");
                 console.prompt();
 
                 name = Interrogator.getUserScanner().nextLine().trim();
@@ -103,23 +110,24 @@ public class TicketForm extends Form<Ticket> {
         double price;
         while (true) {
             try {
-                console.println("Введите цену продукта:");
+                console.println("Введите цену билета:");
                 console.prompt();
 
                 var strPrice = Interrogator.getUserScanner().nextLine().trim();
                 if (fileMode) console.println(strPrice);
 
                 price = Double.parseDouble(strPrice);
+                long MIN_PRICE = 0;
                 if (price < MIN_PRICE) throw new InvalidRangeException();
                 break;
             } catch (NoSuchElementException exception) {
-                console.printError("Цена продукта не распознана!");
+                console.printError("Цена билета не распознана!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (InvalidRangeException exception) {
-                console.printError("Цена продукта должна быть больше нуля!");
+                console.printError("Цена билета должна быть больше нуля!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (NumberFormatException exception) {
-                console.printError("Цена продукта должна быть представлена числом!");
+                console.printError("Цена билета должна быть представлена числом!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (NullPointerException | IllegalStateException exception) {
                 console.printError("Непредвиденная ошибка!");
@@ -129,22 +137,22 @@ public class TicketForm extends Form<Ticket> {
         return price;
     }
 
-    private String askPartNumber() throws InvalidScriptInputException {
+    private String askComment() throws InvalidScriptInputException {
         String partNumber;
         var fileMode = Interrogator.fileMode();
         while (true) {
             try {
-                console.println("Введите номер части продукта:");
+                console.println("Введите комментарий билета:");
                 console.prompt();
 
                 partNumber = Interrogator.getUserScanner().nextLine().trim();
                 if (fileMode) console.println(partNumber);
-                if (partNumber.equals("")) {
+                if (partNumber.isEmpty()) {
                     partNumber = null;
                 }
                 break;
             } catch (NoSuchElementException exception) {
-                console.printError("Номер части не распознан!");
+                console.printError("Комментарий не распознан!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (IllegalStateException exception) {
                 console.printError("Непредвиденная ошибка!");

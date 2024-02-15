@@ -1,15 +1,15 @@
 package ru.itmo.prog.lab5.utility;
 
+import ru.itmo.prog.lab5.exceptions.ScriptRecursionException;
+import ru.itmo.prog.lab5.managers.CommandManager;
+import ru.itmo.prog.lab5.utility.console.Console;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-
-import ru.itmo.prog.lab5.exceptions.ScriptRecursionException;
-import ru.itmo.prog.lab5.managers.CommandManager;
-import ru.itmo.prog.lab5.utility.console.Console;
 
 public class Runner {
     public enum ExitCode {

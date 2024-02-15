@@ -4,8 +4,8 @@ import ru.itmo.prog.lab5.exceptions.InvalidFormException;
 import ru.itmo.prog.lab5.exceptions.InvalidNumberOfElementsException;
 import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
 import ru.itmo.prog.lab5.managers.CollectionManager;
-import ru.itmo.prog.lab5.models.forms.TicketForm;
 import ru.itmo.prog.lab5.models.Ticket;
+import ru.itmo.prog.lab5.models.forms.TicketForm;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 /**

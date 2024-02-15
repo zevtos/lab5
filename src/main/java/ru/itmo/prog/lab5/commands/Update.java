@@ -2,7 +2,6 @@ package ru.itmo.prog.lab5.commands;
 
 import ru.itmo.prog.lab5.exceptions.*;
 import ru.itmo.prog.lab5.managers.CollectionManager;
-import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.models.forms.TicketForm;
 import ru.itmo.prog.lab5.utility.console.Console;
 

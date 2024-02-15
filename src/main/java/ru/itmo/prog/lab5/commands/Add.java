@@ -1,15 +1,14 @@
 package ru.itmo.prog.lab5.commands;
 
-import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
 import ru.itmo.prog.lab5.exceptions.InvalidFormException;
 import ru.itmo.prog.lab5.exceptions.InvalidNumberOfElementsException;
+import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
 import ru.itmo.prog.lab5.managers.CollectionManager;
 import ru.itmo.prog.lab5.models.forms.TicketForm;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'add'. Добавляет новый элемент в коллекцию.
- * @author maxbarsukov
  */
 public class Add extends Command {
     private final Console console;
