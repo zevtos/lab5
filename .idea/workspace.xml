@@ -5,12 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3770c456-4c23-4e57-a719-d29cf427eb2c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/ZonedDateAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/add.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/recursion.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/script.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/TicketConsoleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/bin/TicketConsoleApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/TicketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/bin/TicketManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/file/TicketFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/bin/file/TicketFileReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/file/TicketFileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bin/file/TicketFileWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/file.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/Ask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/Ask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/Add.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/Add.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/AddIfMin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/AddIfMin.java" afterDir="false" />
@@ -57,6 +60,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/LocalDateAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/LocalDateAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/Runner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/Validatable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/Validatable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/ZonedDateAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/ZonedDateAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/console/Console.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/console/Console.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/console/StandardConsole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/console/StandardConsole.java" afterDir="false" />
     </list>
@@ -103,7 +107,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Run",
+    "Application.Main.executor": "Debug",
     "Application.Unnamed.executor": "Run",
     "Attach to process.pid 31504.executor": "ProcessAttachDebug",
     "Downloaded.Files.Path.Enabled": "false",
@@ -128,6 +132,7 @@
       <recent name="ru.itmo.prog.lab5.models.forms" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\zevtos\itmo\labs\md\prog\lab5\data" />
       <recent name="C:\Users\zevtos\itmo\labs\md\prog\lab5\bin" />
     </key>
   </component>
@@ -137,7 +142,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="ru.itmo.prog.lab5.Main" />
       <module name="lab5" />
-      <option name="PROGRAM_PARAMETERS" value="file.json" />
+      <option name="PROGRAM_PARAMETERS" value="data/file.json" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -195,13 +200,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/forms/TicketForm.java</url>
-          <line>37</line>
+          <line>36</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/Ticket.java</url>
-          <line>49</line>
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,0 +1,4 @@
+info
+show
+remove_first
+show

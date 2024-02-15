@@ -16,7 +16,6 @@ import java.util.NoSuchElementException;
 
 /**
  * Форма билета.
- * @author maxbarsukov
  */
 public class TicketForm extends Form<Ticket> {
     private final Console console;

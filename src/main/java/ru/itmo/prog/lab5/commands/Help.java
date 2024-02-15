@@ -5,7 +5,6 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'help'. Выводит справку по доступным командам
- * @author maxbarsukov
  */
 public class Help extends Command {
     private final Console console;

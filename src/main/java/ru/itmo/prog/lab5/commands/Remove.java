@@ -8,7 +8,6 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'remove_by_id'. Удаляет элемент из коллекции.
- * @author maxbarsukov
  */
 public class Remove extends Command {
     private final Console console;

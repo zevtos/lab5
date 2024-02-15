@@ -51,14 +51,14 @@ public class PersonForm extends Form<Person> {
 
 
         console.println("! Добавление новой личности:");
-        var organization = new Person(
+        var person = new Person(
                 askBirthday(),
                 askHeight(),
                 askPassportID(),
                 askHairColor()
         );
-        if (!organization.validate()) throw new InvalidFormException();
-        return organization;
+        if (!person.validate()) throw new InvalidFormException();
+        return person;
     }
     private Color askHairColor() throws InvalidScriptInputException {
         return new ColorForm(console).build();
@@ -121,11 +121,13 @@ public class PersonForm extends Form<Person> {
     }
     private LocalDate askBirthday() throws InvalidScriptInputException {
         LocalDate birthday;
+        var fileMode = Interrogator.fileMode();
         try {
             while (true) {
                 console.print("birthday-data-time (Exemple: " +
                         LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) + " or 2020-02-20): ");
-                var line = console.readln().trim();
+                var line = Interrogator.getUserScanner().nextLine().trim();
+                if (fileMode) console.println(line);
                 if (line.equals("exit")) throw new InvalidScriptInputException();
                 if (line.isEmpty()) {
                     birthday = null;

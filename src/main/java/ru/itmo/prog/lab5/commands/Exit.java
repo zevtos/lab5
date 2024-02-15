@@ -4,7 +4,6 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'exit'. Завершает выполнение.
- * @author maxbarsukov
  */
 public class Exit extends Command {
     private final Console console;

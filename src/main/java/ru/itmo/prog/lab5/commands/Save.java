@@ -5,7 +5,6 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'save'. Сохраняет коллекцию в файл.
- * @author maxbarsukov
  */
 public class Save extends Command {
     private final Console console;
