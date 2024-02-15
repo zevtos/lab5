@@ -27,8 +27,7 @@ public class RemoveFirst extends Command {
             if (arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             if (collectionManager.collectionSize() == 0) throw new EmptyValueException();
 
-            var id = 0;
-            var productToRemove = collectionManager.byId(id);
+            var productToRemove = collectionManager.getFirst();
             if (productToRemove == null) throw new NotFoundException();
 
             collectionManager.remove(productToRemove);
