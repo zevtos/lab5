@@ -26,7 +26,7 @@ class Ask {
             var comment = askComment(console);
             var type = askTicketType(console);
             var person = askPerson(console);
-            return new Ticket(id, name, coordinates, price, discount, comment, type, person);
+            return new Ticket(name, coordinates, price, discount, comment, type, person);
         } catch (NoSuchElementException | IllegalStateException e) {
             console.printError("Ошибка чтения");
             return null;

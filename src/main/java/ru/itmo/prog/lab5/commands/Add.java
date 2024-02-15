@@ -1,10 +1,10 @@
 package ru.itmo.prog.lab5.commands;
 
-import ru.itmo.prog.lab5.exceptions.IncorrectInputInScriptException;
+import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
 import ru.itmo.prog.lab5.exceptions.InvalidFormException;
-import ru.itmo.prog.lab5.exceptions.WrongAmountOfElementsException;
+import ru.itmo.prog.lab5.exceptions.InvalidNumberOfElementsException;
 import ru.itmo.prog.lab5.managers.CollectionManager;
-import ru.itmo.prog.lab5.models.forms.ProductForm;
+import ru.itmo.prog.lab5.models.forms.TicketForm;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
@@ -28,18 +28,18 @@ public class Add extends Command {
     @Override
     public boolean apply(String[] arguments) {
         try {
-            if (!arguments[1].isEmpty()) throw new WrongAmountOfElementsException();
+            if (!arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             console.println("* Создание нового продукта:");
-            collectionManager.addToCollection((new ProductForm(console, collectionManager)).build());
+            collectionManager.add((new TicketForm(console, collectionManager)).build());
             console.println("Продукт успешно добавлен!");
             return true;
 
-        } catch (WrongAmountOfElementsException exception) {
+        } catch (InvalidNumberOfElementsException exception) {
             console.printError("Неправильное количество аргументов!");
             console.println("Использование: '" + getName() + "'");
         } catch (InvalidFormException exception) {
             console.printError("Поля продукта не валидны! Продукт не создан!");
-        } catch (IncorrectInputInScriptException ignored) {}
+        } catch (InvalidScriptInputException ignored) {}
         return false;
     }
 }

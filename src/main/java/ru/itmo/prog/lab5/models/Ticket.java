@@ -1,5 +1,6 @@
 package ru.itmo.prog.lab5.models;
 
+import ru.itmo.prog.lab5.managers.CollectionManager;
 import ru.itmo.prog.lab5.utility.Element;
 
 import java.time.ZonedDateTime;
@@ -7,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Ticket extends Element {
-
+    private static int nextId = 1;
     private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -18,8 +19,8 @@ public class Ticket extends Element {
     private TicketType type; //Поле может быть null
     private Person person; //Поле не может быть null
 
-    public Ticket(Integer id, String name, Coordinates coordinates, ZonedDateTime creationDate, double price, Long discount, String comment, TicketType type, Person person) {
-        this.id = id;
+    public Ticket(String name, Coordinates coordinates, ZonedDateTime creationDate, double price, Long discount, String comment, TicketType type, Person person) {
+        this.id = nextId;
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = creationDate;
@@ -29,8 +30,20 @@ public class Ticket extends Element {
         this.type = type;
         this.person = person;
     }
-    public Ticket(Integer id, String name, Coordinates coordinates, double price, Long discount, String comment, TicketType type, Person person) {
-        this(id, name, coordinates, ZonedDateTime.now(), price, discount, comment, type, person);
+    public Ticket(String name, Coordinates coordinates, double price, Long discount, String comment, TicketType type, Person person) {
+        this(name, coordinates, ZonedDateTime.now(), price, discount, comment, type, person);
+    }
+    /**
+     * Обновляет указатель следующего ID
+     * @param collectionManager манагер коллекций
+     */
+    public static void updateNextId(CollectionManager collectionManager) {
+        var maxId = collectionManager
+                .getCollection()
+                .stream().filter(Objects::nonNull)
+                .map(Ticket::getId)
+                .mapToInt(Integer::intValue).max().orElse(0);
+        nextId = maxId + 1;
     }
     @Override
     public String toString() {

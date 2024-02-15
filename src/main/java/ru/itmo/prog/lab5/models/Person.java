@@ -3,9 +3,10 @@ package ru.itmo.prog.lab5.models;
 import ru.itmo.prog.lab5.utility.Validatable;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.*;
 
 public class Person implements Validatable {
+    private static transient Map<String, Person> personMap = new HashMap<>();
     private java.time.LocalDateTime birthday; //Поле может быть null
     private Float height; //Поле может быть null, Значение поля должно быть больше 0
     private String passportID; //Поле не может быть null
@@ -16,6 +17,11 @@ public class Person implements Validatable {
         this.height = height;
         this.passportID = passportID;
         this.hairColor = hairColor;
+        personMap.put(this.passportID, this);
+    }
+
+    public static Person byId(String passportID) {
+        return personMap.get(passportID);
     }
 
     public String toString() {

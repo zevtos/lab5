@@ -5,20 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3770c456-4c23-4e57-a719-d29cf427eb2c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/exceptions/EmptyValueException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/exceptions/InvalidFormException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/exceptions/InvalidNumberOfElementsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/exceptions/InvalidRangeException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/exceptions/InvalidScriptInputException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/forms/ColorForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/forms/CoordinatesForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/forms/Form.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/forms/PersonForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/forms/TicketForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/forms/TicketTypeForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/Interrogator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/TicketConsoleApp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/TicketManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/file/TicketFileReader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/file/TicketFileWriter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/TicketConsoleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/bin/TicketConsoleApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/TicketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/bin/TicketManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/file/TicketFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/bin/file/TicketFileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/file/TicketFileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bin/file/TicketFileWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/Ask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/Ask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/Add.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/Add.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/Describable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/Describable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/Executable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/commands/Executable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/managers/CollectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/managers/CollectionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/managers/DumpManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/managers/DumpManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/ticketmanagement/models/Color.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/ticketmanagement/models/Coordinates.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/ticketmanagement/models/Person.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/ticketmanagement/models/Ticket.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/ticketmanagement/models/TicketType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/Console.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/StandardConsole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/Color.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/Coordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/Coordinates.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/Ticket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/TicketType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/models/TicketType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/Element.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/Element.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/LocalDateAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/LocalDateAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/Validatable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/Validatable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/console/Console.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/console/Console.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/console/StandardConsole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/utility/console/StandardConsole.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,13 +96,16 @@
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/zevtos/itmo/labs/md/prog/lab5",
     "onboarding.tips.debug.path": "C:/Users/zevtos/itmo/labs/md/prog/lab5/src/main/java/org/example/Main.java",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="ru.itmo.prog.lab5.models.forms" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\zevtos\itmo\labs\md\prog\lab5\bin" />
     </key>
