@@ -11,29 +11,19 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-/**
- * Утилита для выполнения интерактивного и скриптового режимов.
- * @author zevtos
- */
 public class Runner {
 
     private final Console console;
     private final CommandManager commandManager;
     private final List<String> scriptStack = new ArrayList<>();
 
-    /**
-     * Конструктор для создания экземпляра Runner.
-     *
-     * @param console        объект для взаимодействия с консолью
-     * @param commandManager менеджер команд
-     */
     public Runner(Console console, CommandManager commandManager) {
         this.console = console;
         this.commandManager = commandManager;
     }
 
     /**
-     * Интерактивный режим для пользовательского ввода.
+     * Interactive mode for user input.
      */
     public void interactiveMode() {
         try (Scanner userScanner = Interrogator.getUserScanner()) {
@@ -55,10 +45,9 @@ public class Runner {
     }
 
     /**
-     * Скриптовый режим для выполнения скриптового файла.
-     *
-     * @param argument аргумент скриптового файла
-     * @return код завершения
+     * Script mode for executing a script file.
+     * @param argument The script file argument.
+     * @return The exit code.
      */
     public ExitCode scriptMode(String argument) {
         String[] userCommand;
@@ -97,16 +86,15 @@ public class Runner {
         } catch (FileNotFoundException | NoSuchElementException | ScriptRecursionException | IllegalStateException exception) {
             console.printError("An unexpected error occurred!");
         } finally {
-            scriptStack.removeLast();
+            scriptStack.remove(scriptStack.size() - 1);
         }
         return ExitCode.ERROR;
     }
 
     /**
-     * Выполняет команду.
-     *
-     * @param userCommand команда для выполнения
-     * @return код завершения
+     * Executes the command.
+     * @param userCommand The command to execute.
+     * @return The exit code.
      */
     private ExitCode executeCommand(String[] userCommand) {
         if (userCommand[0].isEmpty()) return ExitCode.OK;
@@ -132,12 +120,10 @@ public class Runner {
         return ExitCode.OK;
     }
 
-    /**
-     * Перечисление для кодов завершения.
-     */
     public enum ExitCode {
         OK,
         ERROR,
         EXIT,
     }
 }
+
