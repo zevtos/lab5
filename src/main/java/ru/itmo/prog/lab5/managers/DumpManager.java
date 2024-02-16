@@ -5,12 +5,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import ru.itmo.prog.lab5.models.Ticket;
-import ru.itmo.prog.lab5.utility.LocalDateAdapter;
+import ru.itmo.prog.lab5.utility.LocalDateTimeAdapter;
 import ru.itmo.prog.lab5.utility.ZonedDateAdapter;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 import java.io.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -20,7 +20,7 @@ public class DumpManager {
     private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .serializeNulls()
-            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .registerTypeAdapter(ZonedDateTime.class, new ZonedDateAdapter())
             .create();
 

@@ -86,7 +86,7 @@ public class Runner {
         } catch (FileNotFoundException | NoSuchElementException | ScriptRecursionException | IllegalStateException exception) {
             console.printError("An unexpected error occurred!");
         } finally {
-            scriptStack.remove(scriptStack.size() - 1);
+            scriptStack.removeLast();
         }
         return ExitCode.ERROR;
     }
@@ -126,3 +126,4 @@ public class Runner {
         EXIT,
     }
 }
+

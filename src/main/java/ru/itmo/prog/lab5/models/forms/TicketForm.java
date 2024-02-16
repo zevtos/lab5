@@ -64,7 +64,7 @@ public class TicketForm extends Form<Ticket> {
                 console.printError("Процент скидки должен быть в диапазоне от 0 до 100!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (NumberFormatException exception) {
-                console.printError("Скидка должна быть представлена числом!");
+                console.printError("Скидка должна быть представлена целым числом!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (NullPointerException | IllegalStateException exception) {
                 console.printError("Непредвиденная ошибка!");

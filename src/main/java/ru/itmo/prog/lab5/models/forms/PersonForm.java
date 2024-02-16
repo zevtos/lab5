@@ -7,7 +7,6 @@ import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.Console;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -119,8 +118,8 @@ public class PersonForm extends Form<Person> {
         }
         return height;
     }
-    private LocalDate askBirthday() throws InvalidScriptInputException {
-        LocalDate birthday;
+    private LocalDateTime askBirthday() throws InvalidScriptInputException {
+        LocalDateTime birthday;
         var fileMode = Interrogator.fileMode();
         try {
             while (true) {
@@ -134,12 +133,12 @@ public class PersonForm extends Form<Person> {
                     break;
                 }
                 try {
-                    birthday = LocalDate.parse(line, DateTimeFormatter.ISO_DATE_TIME);
+                    birthday = LocalDateTime.parse(line, DateTimeFormatter.ISO_DATE_TIME);
                     break;
                 } catch (DateTimeParseException ignored) {
                 }
                 try {
-                    birthday = LocalDate.parse(line + "T00:00:00.0000", DateTimeFormatter.ISO_DATE_TIME);
+                    birthday = LocalDateTime.parse(line + "T00:00:00.0000", DateTimeFormatter.ISO_DATE_TIME);
                     break;
                 } catch (DateTimeParseException ignored) {
                 }

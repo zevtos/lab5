@@ -2,19 +2,19 @@ package ru.itmo.prog.lab5.models;
 
 import ru.itmo.prog.lab5.utility.Validatable;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class Person implements Validatable {
     private static transient Map<String, Person> personMap = new HashMap<>();
-    private LocalDate birthday; //Поле может быть null
+    private LocalDateTime birthday; //Поле может быть null
     private Float height; //Поле может быть null, Значение поля должно быть больше 0
     private String passportID; //Поле не может быть null
     private Color hairColor; //Поле не может быть null
 
-    public Person(LocalDate birthday, Float height, String passportID, Color hairColor) {
+    public Person(LocalDateTime birthday, Float height, String passportID, Color hairColor) {
         this.birthday = birthday;
         this.height = height;
         this.passportID = passportID;
