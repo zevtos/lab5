@@ -4,12 +4,18 @@ import ru.itmo.prog.lab5.managers.CommandManager;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
- * Команда 'help'. Выводит справку по доступным командам
+ * Команда 'help'. Выводит справку по доступным командам.
  */
 public class Help extends Command {
     private final Console console;
     private final CommandManager commandManager;
 
+    /**
+     * Конструктор для создания экземпляра команды Help.
+     *
+     * @param console        объект для взаимодействия с консолью
+     * @param commandManager менеджер команд
+     */
     public Help(Console console, CommandManager commandManager) {
         super("help", "вывести справку по доступным командам");
         this.console = console;
@@ -17,12 +23,14 @@ public class Help extends Command {
     }
 
     /**
-     * Выполняет команду
-     * @return Успешность выполнения команды.
+     * Выполняет команду.
+     *
+     * @param arguments аргументы команды (в данном случае ожидается отсутствие аргументов)
+     * @return Успешность выполнения команды
      */
     @Override
     public boolean apply(String[] arguments) {
-        if (!arguments[1].isEmpty()) {
+        if (arguments.length > 1 && !arguments[1].isEmpty()) {
             console.println("Использование: '" + getName() + "'");
             return false;
         }

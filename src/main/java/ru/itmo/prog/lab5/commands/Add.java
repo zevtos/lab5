@@ -9,11 +9,19 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'add'. Добавляет новый элемент в коллекцию.
+ *
+ * @author zevtos
  */
 public class Add extends Command {
     private final Console console;
     private final CollectionManager collectionManager;
 
+    /**
+     * Конструктор для создания экземпляра команды Add.
+     *
+     * @param console           объект для взаимодействия с консолью
+     * @param collectionManager менеджер коллекции
+     */
     public Add(Console console, CollectionManager collectionManager) {
         super("add {element}", "добавить новый объект Ticket в коллекцию");
         this.console = console;
@@ -21,13 +29,15 @@ public class Add extends Command {
     }
 
     /**
-     * Выполняет команду
-     * @return Успешность выполнения команды.
+     * Выполняет команду.
+     *
+     * @param arguments аргументы команды (ожидается отсутствие аргументов)
+     * @return Успешность выполнения команды
      */
     @Override
     public boolean apply(String[] arguments) {
         try {
-            if (!arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
+            if (arguments.length > 1 && !arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             console.println("* Создание нового билета:");
             collectionManager.add((new TicketForm(console, collectionManager)).build());
             console.println("Билет успешно добавлен!");
@@ -38,7 +48,9 @@ public class Add extends Command {
             console.println("Использование: '" + getName() + "'");
         } catch (InvalidFormException exception) {
             console.printError("Поля билета не валидны! Билет не создан!");
-        } catch (InvalidScriptInputException ignored) {}
+        } catch (InvalidScriptInputException ignored) {
+            // Ignored
+        }
         return false;
     }
 }

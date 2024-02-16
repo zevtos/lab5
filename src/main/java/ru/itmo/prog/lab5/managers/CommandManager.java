@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * Управляет командами.
+ * @author zevtos
  */
 public class CommandManager {
     private final Map<String, Command> commands = new HashMap<>();

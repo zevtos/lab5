@@ -4,6 +4,7 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'execute_script'. Выполнить скрипт из файла.
+ * @author zevtos
  */
 public class ExecuteScript extends Command {
     private final Console console;

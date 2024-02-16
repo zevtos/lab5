@@ -16,6 +16,10 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
+/**
+ * Менеджер для работы с файлом, в который происходит сохранение и извлечение коллекции.
+ * @author zevtos
+ */
 public class DumpManager {
     private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
@@ -27,6 +31,12 @@ public class DumpManager {
     private final String fileName;
     private final Console console;
 
+    /**
+     * Конструктор для создания экземпляра менеджера.
+     *
+     * @param fileName имя файла
+     * @param console  объект для взаимодействия с консолью
+     */
     public DumpManager(String fileName, Console console) {
         this.fileName = fileName;
         this.console = console;

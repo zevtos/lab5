@@ -10,11 +10,19 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'add_if_min'. Добавляет новый элемент в коллекцию, если его цена меньше минимальной.
+ *
+ * @author zevtos
  */
 public class AddIfMin extends Command {
     private final Console console;
     private final CollectionManager collectionManager;
 
+    /**
+     * Конструктор для создания экземпляра команды AddIfMin.
+     *
+     * @param console           объект для взаимодействия с консолью
+     * @param collectionManager менеджер коллекции
+     */
     public AddIfMin(Console console, CollectionManager collectionManager) {
         super("add_if_min {element}", "добавить новый элемент в коллекцию, если его цена меньше минимальной цены этой коллекции");
         this.console = console;
