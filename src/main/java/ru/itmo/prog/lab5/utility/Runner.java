@@ -12,11 +12,6 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Runner {
-    public enum ExitCode {
-        OK,
-        ERROR,
-        EXIT,
-    }
 
     private final Console console;
     private final CommandManager commandManager;
@@ -28,13 +23,12 @@ public class Runner {
     }
 
     /**
-     * Интерактивный режим
+     * Interactive mode for user input.
      */
     public void interactiveMode() {
-        var userScanner = Interrogator.getUserScanner();
-        try {
+        try (Scanner userScanner = Interrogator.getUserScanner()) {
             ExitCode commandStatus;
-            String[] userCommand = {"", ""};
+            String[] userCommand;
 
             do {
                 console.prompt();
@@ -42,24 +36,21 @@ public class Runner {
                 userCommand[1] = userCommand[1].trim();
 
                 commandManager.addToHistory(userCommand[0]);
-                commandStatus = launchCommand(userCommand);
+                commandStatus = executeCommand(userCommand);
             } while (commandStatus != ExitCode.EXIT);
 
-        } catch (NoSuchElementException exception) {
-            console.printError("Пользовательский ввод не обнаружен!");
-        } catch (IllegalStateException exception) {
-            console.printError("Непредвиденная ошибка!");
+        } catch (NoSuchElementException | IllegalStateException exception) {
+            console.printError("An unexpected error occurred!");
         }
     }
 
-
     /**
-     * Режим для запуска скрипта.
-     * @param argument Аргумент скрипта
-     * @return Код завершения.
+     * Script mode for executing a script file.
+     * @param argument The script file argument.
+     * @return The exit code.
      */
     public ExitCode scriptMode(String argument) {
-        String[] userCommand = {"", ""};
+        String[] userCommand;
         ExitCode commandStatus;
         scriptStack.add(argument);
         if (!new File(argument).exists()) {
@@ -74,37 +65,26 @@ public class Runner {
             do {
                 userCommand = (scriptScanner.nextLine().trim() + " ").split(" ", 2);
                 userCommand[1] = userCommand[1].trim();
-                while (scriptScanner.hasNextLine() && userCommand[0].isEmpty()) {
-                    userCommand = (scriptScanner.nextLine().trim() + " ").split(" ", 2);
-                    userCommand[1] = userCommand[1].trim();
-                }
                 console.println(console.getPrompt() + String.join(" ", userCommand));
                 if (userCommand[0].equals("execute_script")) {
                     for (String script : scriptStack) {
                         if (userCommand[1].equals(script)) throw new ScriptRecursionException();
                     }
                 }
-                commandStatus = launchCommand(userCommand);
+                commandStatus = executeCommand(userCommand);
             } while (commandStatus == ExitCode.OK && scriptScanner.hasNextLine());
 
             Interrogator.setUserScanner(tmpScanner);
             Interrogator.setUserMode();
 
             if (commandStatus == ExitCode.ERROR && !(userCommand[0].equals("execute_script") && !userCommand[1].isEmpty())) {
-                console.println("Проверьте скрипт на корректность введенных данных!");
+                console.println("Please check the script for correct input data!");
             }
 
             return commandStatus;
 
-        } catch (FileNotFoundException exception) {
-            console.printError("Файл со скриптом не найден!");
-        } catch (NoSuchElementException exception) {
-            console.printError("Файл со скриптом пуст!");
-        } catch (ScriptRecursionException exception) {
-            console.printError("Скрипты не могут вызываться рекурсивно!");
-        } catch (IllegalStateException exception) {
-            console.printError("Непредвиденная ошибка!");
-            System.exit(0);
+        } catch (FileNotFoundException | NoSuchElementException | ScriptRecursionException | IllegalStateException exception) {
+            console.printError("An unexpected error occurred!");
         } finally {
             scriptStack.remove(scriptStack.size() - 1);
         }
@@ -112,31 +92,37 @@ public class Runner {
     }
 
     /**
-     * Launchs the command.
-     * @param userCommand Команда для запуска
-     * @return Код завершения.
+     * Executes the command.
+     * @param userCommand The command to execute.
+     * @return The exit code.
      */
-    private ExitCode launchCommand(String[] userCommand) {
+    private ExitCode executeCommand(String[] userCommand) {
         if (userCommand[0].isEmpty()) return ExitCode.OK;
         var command = commandManager.getCommands().get(userCommand[0]);
 
         if (command == null) {
-            console.printError("Команда '" + userCommand[0] + "' не найдена. Наберите 'help' для справки");
+            console.printError("Command '" + userCommand[0] + "' not found. Type 'help' for assistance");
             return ExitCode.ERROR;
         }
 
         switch (userCommand[0]) {
             case "exit" -> {
-                if (!commandManager.getCommands().get("exit").apply(userCommand)) return ExitCode.ERROR;
+                if (!command.apply(userCommand)) return ExitCode.ERROR;
                 else return ExitCode.EXIT;
             }
             case "execute_script" -> {
-                if (!commandManager.getCommands().get("execute_script").apply(userCommand)) return ExitCode.ERROR;
+                if (!command.apply(userCommand)) return ExitCode.ERROR;
                 else return scriptMode(userCommand[1]);
             }
             default -> { if (!command.apply(userCommand)) return ExitCode.ERROR; }
-        };
+        }
 
         return ExitCode.OK;
+    }
+
+    public enum ExitCode {
+        OK,
+        ERROR,
+        EXIT,
     }
 }
