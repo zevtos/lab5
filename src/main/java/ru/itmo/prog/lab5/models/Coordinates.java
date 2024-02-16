@@ -1,6 +1,6 @@
 package ru.itmo.prog.lab5.models;
 
-import ru.itmo.prog.lab5.utility.Validatable;
+import ru.itmo.prog.lab5.utility.base.Validatable;
 
 import java.util.Objects;
 

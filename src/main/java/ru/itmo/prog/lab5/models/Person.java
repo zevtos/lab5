@@ -1,6 +1,6 @@
 package ru.itmo.prog.lab5.models;
 
-import ru.itmo.prog.lab5.utility.Validatable;
+import ru.itmo.prog.lab5.utility.base.Validatable;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -26,11 +26,14 @@ public class Person implements Validatable {
         return personMap.get(passportID);
     }
 
+    @Override
     public String toString() {
-        return "person{\"birthday\": " + (birthday == null ? "null" : birthday) + ", " +
-                "\"height\": \"" + (height == null ? "null" : height) + "\", " +
-                "\"passportID\": \"" + passportID + "\", " +
-                "\"hairColor\": \"" + hairColor + "\"}";
+        return "Person{" +
+                "\n\t\tbirthday=" + (birthday == null ? "null" : birthday) +
+                "\n\t\theight=" + (height == null ? "null" : height) +
+                "\n\t\tpassportID='" + passportID + '\'' +
+                "\n\t\thairColor=" + hairColor +
+                "\n\t}";
     }
 
     public boolean validate() {

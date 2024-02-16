@@ -1,14 +1,19 @@
 package ru.itmo.prog.lab5;
 
-import ru.itmo.prog.lab5.commands.*;
-import ru.itmo.prog.lab5.managers.TicketCollectionManager;
+import ru.itmo.prog.lab5.commands.core.*;
+import ru.itmo.prog.lab5.commands.custom.*;
+import ru.itmo.prog.lab5.commands.special.SumOfPrice;
+import ru.itmo.prog.lab5.commands.update.Update;
 import ru.itmo.prog.lab5.managers.CommandManager;
 import ru.itmo.prog.lab5.managers.DumpManager;
+import ru.itmo.prog.lab5.managers.collections.PersonCollectionManager;
+import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
+import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.utility.Interrogator;
-import ru.itmo.prog.lab5.utility.Runner;
 import ru.itmo.prog.lab5.utility.console.Console;
 import ru.itmo.prog.lab5.utility.console.StandardConsole;
+import ru.itmo.prog.lab5.utility.runtime.Runner;
 
 import java.util.Scanner;
 
@@ -21,13 +26,21 @@ public class Main {
 
         checkFileArgument(args, console);
 
-        var dumpManager = new DumpManager(args[0], console);
-        var ticketCollectionManager = new TicketCollectionManager(dumpManager);
-
+        var TicketDumpManager = new DumpManager<Ticket>(args[0], console, Ticket.class);
+        var ticketCollectionManager = new TicketCollectionManager(TicketDumpManager);
+        PersonCollectionManager personCollectionManager;
+        if (args.length > 1) {
+            var personDumpManager = new DumpManager<Person>(args[1], console, Person.class);
+            personCollectionManager = new PersonCollectionManager(personDumpManager);
+        } else {
+            var personDumpManager = new DumpManager<Person>("data/persons.json", console, Person.class);
+            personCollectionManager = new PersonCollectionManager(personDumpManager);
+            personCollectionManager.init(ticketCollectionManager);
+        }
         Ticket.updateNextId(ticketCollectionManager);
         ticketCollectionManager.validateAll(console);
 
-        var commandManager = createCommandManager(console, ticketCollectionManager);
+        var commandManager = createCommandManager(console, ticketCollectionManager, personCollectionManager);
 
         new Runner(console, commandManager).interactiveMode();
     }
@@ -37,7 +50,7 @@ public class Main {
             System.exit(MISSING_FILE_ARGUMENT_EXIT_CODE);
         }
     }
-    private static CommandManager createCommandManager(Console console, TicketCollectionManager ticketCollectionManager) {
+    private static CommandManager createCommandManager(Console console, TicketCollectionManager ticketCollectionManager, PersonCollectionManager personCollectionManager) {
         return new CommandManager() {{
             register("help", new Help(console, this));
             register("info", new Info(console, ticketCollectionManager));
@@ -46,7 +59,7 @@ public class Main {
             register("update", new Update(console, ticketCollectionManager));
             register("remove_by_id", new Remove(console, ticketCollectionManager));
             register("clear", new Clear(console, ticketCollectionManager));
-            register("save", new Save(console, ticketCollectionManager));
+            register("save", new Save(console, ticketCollectionManager, personCollectionManager));
             register("execute_script", new ExecuteScript(console));
             register("exit", new Exit(console));
             register("remove_first", new RemoveFirst(console, ticketCollectionManager));

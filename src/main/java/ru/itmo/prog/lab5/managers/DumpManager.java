@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import ru.itmo.prog.lab5.utility.LocalDateTimeAdapter;
-import ru.itmo.prog.lab5.utility.ZonedDateAdapter;
+import ru.itmo.prog.lab5.utility.adapters.LocalDateTimeAdapter;
+import ru.itmo.prog.lab5.utility.adapters.ZonedDateAdapter;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 import java.io.*;
@@ -20,6 +20,8 @@ import java.util.NoSuchElementException;
  * @author zevtos
  */
 public class DumpManager<T> {
+    private final TypeToken<LinkedList<T>> collectionTypeToken;
+    private final String collectionName;
     private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .serializeNulls()
@@ -36,9 +38,12 @@ public class DumpManager<T> {
      * @param fileName имя файла
      * @param console  объект для взаимодействия с консолью
      */
-    public DumpManager(String fileName, Console console) {
+    public DumpManager(String fileName, Console console, Class<T> clazz) {
         this.fileName = fileName;
         this.console = console;
+        collectionTypeToken = (TypeToken<LinkedList<T>>) TypeToken.getParameterized(LinkedList.class, clazz);
+        String[] parts = clazz.getName().split("\\.");
+        collectionName = parts[parts.length - 1];
     }
 
     /**
@@ -49,7 +54,7 @@ public class DumpManager<T> {
     public void writeCollection(Collection<T> collection) {
         try (PrintWriter collectionPrintWriter = new PrintWriter(fileName)) {
             collectionPrintWriter.println(gson.toJson(collection));
-            console.println("Коллекция успешна сохранена в файл!");
+            console.println("Коллекция" + collectionName + " сохранена в файл!");
         } catch (IOException exception) {
             console.printError("Загрузочный файл не может быть открыт!");
         }
@@ -63,8 +68,7 @@ public class DumpManager<T> {
     public Collection<T> readCollection() {
         if (fileName != null && !fileName.isEmpty()) {
             try (var fileReader = new FileReader(fileName)) {
-                var collectionType = new TypeToken<LinkedList<T>>() {
-                }.getType();
+                var collectionType = collectionTypeToken.getType();
                 var reader = new BufferedReader(fileReader);
 
                 var jsonString = new StringBuilder();
@@ -84,7 +88,7 @@ public class DumpManager<T> {
                 LinkedList<T> collection = gson.fromJson(jsonString.toString(),
                         collectionType);
 
-                console.println("Коллекция успешна загружена!");
+                console.println("Коллекция " + collectionName + " успешна загружена!");
                 return collection;
 
             } catch (FileNotFoundException exception) {

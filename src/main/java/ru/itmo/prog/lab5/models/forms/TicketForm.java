@@ -4,7 +4,7 @@ import ru.itmo.prog.lab5.exceptions.EmptyValueException;
 import ru.itmo.prog.lab5.exceptions.InvalidFormException;
 import ru.itmo.prog.lab5.exceptions.InvalidRangeException;
 import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
-import ru.itmo.prog.lab5.managers.TicketCollectionManager;
+import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.Coordinates;
 import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.models.Ticket;

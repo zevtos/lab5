@@ -1,14 +1,14 @@
 package ru.itmo.prog.lab5.models;
 
-import ru.itmo.prog.lab5.managers.TicketCollectionManager;
-import ru.itmo.prog.lab5.utility.Element;
+import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
+import ru.itmo.prog.lab5.utility.base.Element;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Ticket extends Element {
-    private static int nextId = 1;
+    private static int nextId;
     private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -38,25 +38,23 @@ public class Ticket extends Element {
      * @param ticketCollectionManager манагер коллекций
      */
     public static void updateNextId(TicketCollectionManager ticketCollectionManager) {
-        var maxId = ticketCollectionManager
-                .getCollection()
-                .stream().filter(Objects::nonNull)
-                .map(Ticket::getId)
-                .mapToInt(Integer::intValue).max().orElse(0);
-        nextId = maxId + 1;
+        nextId = ticketCollectionManager.getFreeId();
     }
     @Override
     public String toString() {
-        return "ticket{\"id\": " + id + ", " +
-                "\"name\": \"" + name + "\", " +
-                "\"coordinates\": \"" + coordinates + "\", " +
-                "\"creationDate\": \"" + creationDate.format(DateTimeFormatter.ISO_DATE_TIME) + "\", " +
-                "\"price\": \"" + price + "\", " +
-                "\"discount\": \"" + (discount == null ? "null" : discount) + "\", " +
-                "\"comment\": \"" + (comment == null ? "null" : comment) + "\", " +
-                "\"ticketType\": \"" + (type == null ? "null" : type) + "\", " +
-                "\"Person\": \"" + person + "\"}";
+        return "Ticket{" +
+                "\n\tid=" + id +
+                "\n\tname='" + name + '\'' +
+                "\n\tcoordinates=" + coordinates +
+                "\n\tcreationDate='" + creationDate.format(DateTimeFormatter.ISO_DATE_TIME) + '\'' +
+                "\n\tprice=" + price +
+                "\n\tdiscount=" + (discount == null ? "null" : discount) +
+                "\n\tcomment='" + (comment == null ? "null" : comment) + '\'' +
+                "\n\tticketType='" + (type == null ? "null" : type) + '\'' +
+                "\n\t" + (person == null ? "null" : person.toString()) +
+                "\n}";
     }
+
 
     public boolean validate() {
         if (id <= 0) return false;

@@ -1,7 +1,7 @@
 package ru.itmo.prog.lab5.models.forms;
 
 import ru.itmo.prog.lab5.exceptions.*;
-import ru.itmo.prog.lab5.managers.TicketCollectionManager;
+import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.Color;
 import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.utility.Interrogator;
