@@ -26,17 +26,15 @@ public class Main {
 
         checkFileArgument(args, console);
 
-        var TicketDumpManager = new DumpManager<Ticket>(args[0], console, Ticket.class);
-        var ticketCollectionManager = new TicketCollectionManager(TicketDumpManager);
-        PersonCollectionManager personCollectionManager;
+        PersonCollectionManager personCollectionManager = null;
         if (args.length > 1) {
             var personDumpManager = new DumpManager<Person>(args[1], console, Person.class);
             personCollectionManager = new PersonCollectionManager(personDumpManager);
-        } else {
-            var personDumpManager = new DumpManager<Person>("data/persons.json", console, Person.class);
-            personCollectionManager = new PersonCollectionManager(personDumpManager);
-            personCollectionManager.init(ticketCollectionManager);
         }
+        var TicketDumpManager = new DumpManager<Ticket>(args[0], console, Ticket.class);
+        var ticketCollectionManager = new TicketCollectionManager(TicketDumpManager, personCollectionManager);
+        personCollectionManager = ticketCollectionManager.getPersonManager();
+
         Ticket.updateNextId(ticketCollectionManager);
         ticketCollectionManager.validateAll(console);
 

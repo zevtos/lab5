@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Person implements Validatable {
-    private static transient Map<String, Person> personMap = new HashMap<>();
     private LocalDateTime birthday; //Поле может быть null
     private Float height; //Поле может быть null, Значение поля должно быть больше 0
     private String passportID; //Поле не может быть null
@@ -19,12 +18,8 @@ public class Person implements Validatable {
         this.height = height;
         this.passportID = passportID;
         this.hairColor = hairColor;
-        personMap.put(this.passportID, this);
     }
 
-    public static Person byId(String passportID) {
-        return personMap.get(passportID);
-    }
 
     @Override
     public String toString() {

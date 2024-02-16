@@ -1,9 +1,12 @@
 package ru.itmo.prog.lab5.managers.collections;
 
+import ru.itmo.prog.lab5.exceptions.DuplicateException;
 import ru.itmo.prog.lab5.managers.DumpManager;
 import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.models.Ticket;
+import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.Console;
+import ru.itmo.prog.lab5.utility.console.StandardConsole;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,11 +16,21 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
     private LinkedList<Ticket> collection = new LinkedList<Ticket>();
     private LocalDateTime lastSaveTime;
     private final DumpManager<Ticket> dumpManager;
+    private final PersonCollectionManager personCollectionManager;
 
-    public TicketCollectionManager(DumpManager<Ticket> dumpManager) {
+    public TicketCollectionManager(DumpManager<Ticket> dumpManager, PersonCollectionManager p) {
         this.lastSaveTime = null;
         this.dumpManager = dumpManager;
+        boolean flag = (p == null);
+
         loadCollection();
+        if (flag){
+            var personDumpManager = new DumpManager<Person>("data/persons.json", new StandardConsole(), Person.class);
+            p = new PersonCollectionManager(personDumpManager);
+            p.loadCollection();
+            p.addAll(this.getAllPersons());
+        }
+        this.personCollectionManager = p;
     }
 
     public void validateAll(Console console) {
@@ -161,9 +174,26 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
         return info.toString().trim();
     }
 
-    public void loadCollection() {
-        collection.addAll(dumpManager.readCollection());
+    public boolean loadCollection() {
+        Collection<Ticket> loadedTickets = dumpManager.readCollection();
+        try {
+            for (Ticket ticket : loadedTickets) {
+                if (ticket != null) {
+                    int id = ticket.getId();
+                    Ticket existingTicket = byId(id);
+                    if (existingTicket != null) {
+                        throw new DuplicateException();
+                    }
+                }
+                collection.add(ticket);
+            }
+            return true;
+        } catch (DuplicateException e) {
+            dumpManager.getConsole().printError("Ошибка загрузки коллекции: обнаружены дубликаты Ticket по полю id, загружены только первые значения.");
+        }
+        return false;
     }
+
 
     public Ticket getFirst() {
         if (collection.isEmpty()) return null;
@@ -185,5 +215,9 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
         }
 
         return allPersons;
+    }
+
+    public PersonCollectionManager getPersonManager() {
+        return personCollectionManager;
     }
 }

@@ -1,7 +1,7 @@
 package ru.itmo.prog.lab5.managers.collections;
 
+import ru.itmo.prog.lab5.exceptions.DuplicateException;
 import ru.itmo.prog.lab5.managers.DumpManager;
-import ru.itmo.prog.lab5.managers.collections.CollectionManager;
 import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.utility.console.Console;
 
@@ -16,7 +16,6 @@ public class PersonCollectionManager implements CollectionManager<Person> {
     public PersonCollectionManager(DumpManager<Person> dumpManager) {
         this.lastSaveTime = null;
         this.dumpManager = dumpManager;
-        loadCollection();
     }
     @Override
     public void validateAll(Console console) {
@@ -41,9 +40,20 @@ public class PersonCollectionManager implements CollectionManager<Person> {
                 .orElse(null);
     }
 
+    public Person byId(String id) {
+        return collection.stream()
+                .filter(person -> Objects.equals(person.getPassportID(), id))
+                .findFirst()
+                .orElse(null);
+    }
+
     @Override
     public boolean contains(Person person) {
-        return collection.contains(person);
+        return collection.stream().anyMatch(p -> p.getPassportID().equals(person.getPassportID()));
+    }
+
+    public boolean contains(String id) {
+        return collection.stream().anyMatch(p -> p.getPassportID().equals(id));
     }
 
     @Override
@@ -89,11 +99,27 @@ public class PersonCollectionManager implements CollectionManager<Person> {
     public void update() {
         // Не нужно делать сортировку для коллекции Person
     }
-
     @Override
-    public void loadCollection() {
-        collection.addAll(dumpManager.readCollection());
+    public boolean loadCollection() {
+        Collection<Person> loadedPersons = dumpManager.readCollection();
+        try {
+            for (Person person : loadedPersons) {
+                if (person != null) {
+                    String passportID = person.getPassportID();
+                    if (contains(passportID)) {
+                        throw new DuplicateException(passportID);
+                    }
+                }
+                collection.add(person);
+            }
+            return true;
+        } catch (DuplicateException e) {
+            dumpManager.getConsole().printError("Ошибка загрузки коллекции: обнаружены дубликаты Person по полю passportID: " + e.getDuplicateObject() + '\n' + "Коллекция Person будет инициализирована с помощью Ticket");
+            collection.clear();
+        }
+        return false;
     }
+
 
     @Override
     public void saveCollection() {
@@ -114,22 +140,33 @@ public class PersonCollectionManager implements CollectionManager<Person> {
     public Person getFirst() {
         return collection.isEmpty() ? null : collection.get(0);
     }
+
     public boolean init(TicketCollectionManager manager) {
         // Получаем список всех Person из менеджера коллекции
         Collection<Person> persons = manager.getAllPersons();
         Set<String> passportIds = new HashSet<>();
         // Проверяем каждого Person на уникальность PassportID
-        for (Person person : persons) {
-            if (passportIds.contains(person.getPassportID())) {
-                // Если уже есть Person с таким PassportID, выбрасываем исключение
-                throw new IllegalStateException("Два Person с одинаковым PassportID: " + person.getPassportID());
+        try {
+            for (Person person : persons) {
+                if (passportIds.contains(person.getPassportID())) {
+                    // Если уже есть Person с таким PassportID, выбрасываем исключение
+                    throw new DuplicateException(person.getPassportID());
+                }
+                // Добавляем PassportID в множество для проверки уникальности
+                passportIds.add(person.getPassportID());
             }
-            // Добавляем PassportID в множество для проверки уникальности
-            passportIds.add(person.getPassportID());
+            // Если все PassportID уникальны, добавляем Person в коллекцию
+            collection.addAll(persons);
+            return true;
+        } catch (DuplicateException e) {
+            dumpManager.getConsole().printError("Два Person с одинаковым PassportID: " + e.getDuplicateObject());
         }
-        // Если все PassportID уникальны, добавляем Person в коллекцию
-        collection.addAll(persons);
         // Возвращаем true, если добавление прошло успешно
-        return true;
+        return false;
+
+    }
+
+    public void addAll(Collection<Person> persons) {
+        collection.addAll(persons);
     }
 }

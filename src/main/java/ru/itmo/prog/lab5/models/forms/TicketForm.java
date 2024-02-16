@@ -4,6 +4,7 @@ import ru.itmo.prog.lab5.exceptions.EmptyValueException;
 import ru.itmo.prog.lab5.exceptions.InvalidFormException;
 import ru.itmo.prog.lab5.exceptions.InvalidRangeException;
 import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
+import ru.itmo.prog.lab5.managers.collections.PersonCollectionManager;
 import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.Coordinates;
 import ru.itmo.prog.lab5.models.Person;
@@ -20,10 +21,12 @@ import java.util.NoSuchElementException;
 public class TicketForm extends Form<Ticket> {
     private final Console console;
     private final TicketCollectionManager ticketCollectionManager;
+    private final PersonCollectionManager personCollectionManager;
 
     public TicketForm(Console console, TicketCollectionManager ticketCollectionManager) {
         this.console = console;
         this.ticketCollectionManager = ticketCollectionManager;
+        this.personCollectionManager = ticketCollectionManager.getPersonManager();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ru.itmo.prog.lab5.models.forms;
 
 import ru.itmo.prog.lab5.exceptions.*;
+import ru.itmo.prog.lab5.managers.collections.PersonCollectionManager;
 import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.Color;
 import ru.itmo.prog.lab5.models.Person;
@@ -15,11 +16,13 @@ import java.util.NoSuchElementException;
 public class PersonForm extends Form<Person> {
     private final Console console;
     private final TicketCollectionManager ticketCollectionManager;
+    private final PersonCollectionManager personCollectionManager;
     private final float MIN_HEIGHT = 0;
 
     public PersonForm(Console console, TicketCollectionManager ticketCollectionManager) {
         this.console = console;
         this.ticketCollectionManager = ticketCollectionManager;
+        this.personCollectionManager = ticketCollectionManager.getPersonManager();
     }
 
     @Override
@@ -37,9 +40,9 @@ public class PersonForm extends Form<Person> {
             if (input.startsWith("id=") || input.startsWith("ID=")) {
                 input = input.replaceFirst("^(id=|ID=)", "");
 
-                var organization = Person.byId(input);
-                if (organization == null) throw new InvalidNumberOfElementsException();
-                return organization;
+                var person = personCollectionManager.byId(input);
+                if (person == null) throw new InvalidNumberOfElementsException();
+                return person;
             }
         } catch (NullPointerException | IllegalStateException exception) {
             console.printError("Непредвиденная ошибка!");

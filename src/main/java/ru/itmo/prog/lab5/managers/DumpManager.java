@@ -106,4 +106,18 @@ public class DumpManager<T> {
         }
         return new LinkedList<>();
     }
+    public void clearFile() {
+        try {
+            FileWriter writer = new FileWriter(fileName);
+            writer.write("");
+            writer.close();
+            console.println("Файл " + fileName + " успешно очищен!");
+        } catch (IOException exception) {
+            console.printError("Ошибка при очистке файла " + fileName + ": " + exception.getMessage());
+        }
+    }
+
+    public Console getConsole() {
+        return console;
+    }
 }

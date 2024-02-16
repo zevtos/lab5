@@ -16,7 +16,7 @@ public interface CollectionManager<T> {
     boolean remove(int id);
     boolean remove(T item);
     void update();
-    void loadCollection();
+    boolean loadCollection();
     void saveCollection();
     void clearCollection();
     int collectionSize();
