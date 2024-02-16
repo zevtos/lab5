@@ -2,6 +2,7 @@ package ru.itmo.prog.lab5.utility.console;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Для ввода команд и вывода результата
@@ -31,8 +32,12 @@ public class StandardConsole implements Console {
      * Выводит ошибка: obj.toString() в консоль
      * @param obj Ошибка для печати
      */
-    public void printError(Object obj) {
-        System.err.println("Error: " + obj);
+    public void printError(Object obj){
+        System.err.print("Error: " + obj + '\n');
+        try {
+            TimeUnit.MILLISECONDS.sleep(20); // Пауза
+        } catch (InterruptedException e) {
+        }
     }
 
     public String readln() throws NoSuchElementException, IllegalStateException {

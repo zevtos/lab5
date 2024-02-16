@@ -2,7 +2,7 @@ package ru.itmo.prog.lab5.commands;
 
 import ru.itmo.prog.lab5.exceptions.EmptyValueException;
 import ru.itmo.prog.lab5.exceptions.InvalidNumberOfElementsException;
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.utility.console.Console;
 
@@ -11,12 +11,12 @@ import ru.itmo.prog.lab5.utility.console.Console;
  */
 public class MaxByName extends Command {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
 
-    public MaxByName(Console console, CollectionManager collectionManager) {
+    public MaxByName(Console console, TicketCollectionManager ticketCollectionManager) {
         super("max_by_name", "вывести любой объект из коллекции, значение поля name которого является максимальным");
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     /**
@@ -28,7 +28,7 @@ public class MaxByName extends Command {
     public boolean apply(String[] arguments) {
         try {
             if (!arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
-            if (collectionManager.collectionSize() == 0) throw new EmptyValueException();
+            if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();
             console.println(maxByName());
             return true;
 
@@ -44,13 +44,13 @@ public class MaxByName extends Command {
     private Ticket maxByName() {
         String maxName = "";
         int ticketId = -1;
-        for (Ticket c : collectionManager.getCollection()) {
+        for (Ticket c : ticketCollectionManager.getCollection()) {
             if (c.getName().compareTo(maxName) < 0) {
                 maxName = c.getName();
                 ticketId = c.getId();
             }
         }
-        if (ticketId == -1) return collectionManager.getFirst();
-        return collectionManager.byId(ticketId);
+        if (ticketId == -1) return ticketCollectionManager.getFirst();
+        return ticketCollectionManager.byId(ticketId);
     }
 }

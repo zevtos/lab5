@@ -1,6 +1,6 @@
 package ru.itmo.prog.lab5.models;
 
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.utility.Element;
 
 import java.time.ZonedDateTime;
@@ -35,10 +35,10 @@ public class Ticket extends Element {
     }
     /**
      * Обновляет указатель следующего ID
-     * @param collectionManager манагер коллекций
+     * @param ticketCollectionManager манагер коллекций
      */
-    public static void updateNextId(CollectionManager collectionManager) {
-        var maxId = collectionManager
+    public static void updateNextId(TicketCollectionManager ticketCollectionManager) {
+        var maxId = ticketCollectionManager
                 .getCollection()
                 .stream().filter(Objects::nonNull)
                 .map(Ticket::getId)

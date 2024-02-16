@@ -1,7 +1,7 @@
 package ru.itmo.prog.lab5.commands;
 
 import ru.itmo.prog.lab5.exceptions.*;
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.forms.TicketForm;
 import ru.itmo.prog.lab5.utility.console.Console;
 
@@ -10,12 +10,12 @@ import ru.itmo.prog.lab5.utility.console.Console;
  */
 public class Update extends Command {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
 
-    public Update(Console console, CollectionManager collectionManager) {
+    public Update(Console console, TicketCollectionManager ticketCollectionManager) {
         super("update <ID> {element}", "обновить значение элемента коллекции по ID");
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     /**
@@ -26,16 +26,16 @@ public class Update extends Command {
     public boolean apply(String[] arguments) {
         try {
             if (arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
-            if (collectionManager.collectionSize() == 0) throw new EmptyValueException();
+            if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();
 
             var id = Integer.parseInt(arguments[1]);
-            var ticket = collectionManager.byId(id);
+            var ticket = ticketCollectionManager.byId(id);
             if (ticket == null) throw new NotFoundException();
 
             console.println("* Введите данные обновленного билета:");
             console.prompt();
 
-            var newticket = (new TicketForm(console, collectionManager)).build();
+            var newticket = (new TicketForm(console, ticketCollectionManager)).build();
             ticket.update(newticket);
 
             console.println("Билет успешно обновлен.");

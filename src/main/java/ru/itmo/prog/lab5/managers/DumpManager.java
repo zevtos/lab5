@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.utility.LocalDateTimeAdapter;
 import ru.itmo.prog.lab5.utility.ZonedDateAdapter;
 import ru.itmo.prog.lab5.utility.console.Console;
@@ -20,7 +19,7 @@ import java.util.NoSuchElementException;
  * Менеджер для работы с файлом, в который происходит сохранение и извлечение коллекции.
  * @author zevtos
  */
-public class DumpManager {
+public class DumpManager<T> {
     private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .serializeNulls()
@@ -47,7 +46,7 @@ public class DumpManager {
      *
      * @param collection коллекция
      */
-    public void writeCollection(Collection<Ticket> collection) {
+    public void writeCollection(Collection<T> collection) {
         try (PrintWriter collectionPrintWriter = new PrintWriter(fileName)) {
             collectionPrintWriter.println(gson.toJson(collection));
             console.println("Коллекция успешна сохранена в файл!");
@@ -61,10 +60,10 @@ public class DumpManager {
      *
      * @return Считанная коллекция
      */
-    public Collection<Ticket> readCollection() {
+    public Collection<T> readCollection() {
         if (fileName != null && !fileName.isEmpty()) {
             try (var fileReader = new FileReader(fileName)) {
-                var collectionType = new TypeToken<LinkedList<Ticket>>() {
+                var collectionType = new TypeToken<LinkedList<T>>() {
                 }.getType();
                 var reader = new BufferedReader(fileReader);
 
@@ -82,7 +81,7 @@ public class DumpManager {
                     jsonString = new StringBuilder("[]");
                 }
 
-                LinkedList<Ticket> collection = gson.fromJson(jsonString.toString(),
+                LinkedList<T> collection = gson.fromJson(jsonString.toString(),
                         collectionType);
 
                 console.println("Коллекция успешна загружена!");

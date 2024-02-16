@@ -3,7 +3,7 @@ package ru.itmo.prog.lab5.commands;
 import ru.itmo.prog.lab5.exceptions.EmptyValueException;
 import ru.itmo.prog.lab5.exceptions.InvalidNumberOfElementsException;
 import ru.itmo.prog.lab5.exceptions.NotFoundException;
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
@@ -11,12 +11,12 @@ import ru.itmo.prog.lab5.utility.console.Console;
  */
 public class Remove extends Command {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
 
-    public Remove(Console console, CollectionManager collectionManager) {
+    public Remove(Console console, TicketCollectionManager ticketCollectionManager) {
         super("remove_by_id <ID>", "удалить ticket из коллекции по ID");
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     /**
@@ -27,13 +27,13 @@ public class Remove extends Command {
     public boolean apply(String[] arguments) {
         try {
             if (arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
-            if (collectionManager.collectionSize() == 0) throw new EmptyValueException();
+            if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();
 
             var id = Integer.parseInt(arguments[1]);
-            var productToRemove = collectionManager.byId(id);
+            var productToRemove = ticketCollectionManager.byId(id);
             if (productToRemove == null) throw new NotFoundException();
 
-            collectionManager.remove(productToRemove);
+            ticketCollectionManager.remove(productToRemove);
             console.println("Билет успешно удален.");
             return true;
 

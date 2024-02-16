@@ -3,7 +3,7 @@ package ru.itmo.prog.lab5.commands;
 import ru.itmo.prog.lab5.exceptions.InvalidFormException;
 import ru.itmo.prog.lab5.exceptions.InvalidNumberOfElementsException;
 import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.models.forms.TicketForm;
 import ru.itmo.prog.lab5.utility.console.Console;
@@ -15,18 +15,18 @@ import ru.itmo.prog.lab5.utility.console.Console;
  */
 public class AddIfMin extends Command {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
 
     /**
      * Конструктор для создания экземпляра команды AddIfMin.
      *
      * @param console           объект для взаимодействия с консолью
-     * @param collectionManager менеджер коллекции
+     * @param ticketCollectionManager менеджер коллекции
      */
-    public AddIfMin(Console console, CollectionManager collectionManager) {
+    public AddIfMin(Console console, TicketCollectionManager ticketCollectionManager) {
         super("add_if_min {element}", "добавить новый элемент в коллекцию, если его цена меньше минимальной цены этой коллекции");
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     /**
@@ -38,11 +38,11 @@ public class AddIfMin extends Command {
         try {
             if (!arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             console.println("* Создание нового билета (add_if_min):");
-            var ticket = (new TicketForm(console, collectionManager)).build();
+            var ticket = (new TicketForm(console, ticketCollectionManager)).build();
 
             var minPrice = minPrice();
             if (ticket.getPrice() < minPrice) {
-                collectionManager.add(ticket);
+                ticketCollectionManager.add(ticket);
                 console.println("Билет успешно добавлен!");
             } else {
                 console.println("Билет не добавлен, цена не минимальная (" + ticket.getPrice() + " > " + minPrice +")");
@@ -59,7 +59,7 @@ public class AddIfMin extends Command {
     }
 
     private Double minPrice() {
-        return collectionManager.getCollection().stream()
+        return ticketCollectionManager.getCollection().stream()
                 .map(Ticket::getPrice)
                 .mapToDouble(Double::doubleValue)
                 .min()

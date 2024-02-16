@@ -2,7 +2,7 @@ package ru.itmo.prog.lab5.commands;
 
 import ru.itmo.prog.lab5.exceptions.EmptyValueException;
 import ru.itmo.prog.lab5.exceptions.InvalidNumberOfElementsException;
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.utility.console.Console;
 
@@ -11,12 +11,12 @@ import ru.itmo.prog.lab5.utility.console.Console;
  */
 public class SumOfPrice extends Command {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
 
-    public SumOfPrice(Console console, CollectionManager collectionManager) {
+    public SumOfPrice(Console console, TicketCollectionManager ticketCollectionManager) {
         super("sum_of_price", "вывести сумму значений поля price для всех элементов коллекции");
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     /**
@@ -42,7 +42,7 @@ public class SumOfPrice extends Command {
     }
 
     private Double getSumOfPrice() {
-        return collectionManager.getCollection().stream()
+        return ticketCollectionManager.getCollection().stream()
                 .map(Ticket::getPrice)
                 .mapToDouble(Double::doubleValue)
                 .sum();

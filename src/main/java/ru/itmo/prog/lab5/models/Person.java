@@ -49,4 +49,8 @@ public class Person implements Validatable {
     public int hashCode() {
         return Objects.hash(birthday, passportID);
     }
+
+    public String getPassportID() {
+        return passportID;
+    }
 }

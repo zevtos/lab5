@@ -2,7 +2,7 @@ package ru.itmo.prog.lab5.commands;
 
 import ru.itmo.prog.lab5.exceptions.EmptyValueException;
 import ru.itmo.prog.lab5.exceptions.NotFoundException;
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
@@ -10,12 +10,12 @@ import ru.itmo.prog.lab5.utility.console.Console;
  */
 public class RemoveFirst extends Command {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
 
-    public RemoveFirst(Console console, CollectionManager collectionManager) {
+    public RemoveFirst(Console console, TicketCollectionManager ticketCollectionManager) {
         super("remove_first", "удалить первый элемент из коллекции");
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     /**
@@ -25,12 +25,12 @@ public class RemoveFirst extends Command {
     @Override
     public boolean apply(String[] arguments) {
         try {
-            if (collectionManager.collectionSize() == 0) throw new EmptyValueException();
+            if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();
 
-            var productToRemove = collectionManager.getFirst();
+            var productToRemove = ticketCollectionManager.getFirst();
             if (productToRemove == null) throw new NotFoundException();
 
-            collectionManager.remove(productToRemove);
+            ticketCollectionManager.remove(productToRemove);
             console.println("Билет успешно удален.");
             return true;
 

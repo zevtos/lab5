@@ -1,7 +1,7 @@
 package ru.itmo.prog.lab5.models.forms;
 
 import ru.itmo.prog.lab5.exceptions.*;
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.Color;
 import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.utility.Interrogator;
@@ -14,12 +14,12 @@ import java.util.NoSuchElementException;
 
 public class PersonForm extends Form<Person> {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
     private final float MIN_HEIGHT = 0;
 
-    public PersonForm(Console console, CollectionManager collectionManager) {
+    public PersonForm(Console console, TicketCollectionManager ticketCollectionManager) {
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     @Override
@@ -134,14 +134,23 @@ public class PersonForm extends Form<Person> {
                 }
                 try {
                     birthday = LocalDateTime.parse(line, DateTimeFormatter.ISO_DATE_TIME);
+                    if (birthday.isAfter(LocalDateTime.now())) throw new InvalidRangeException();
                     break;
                 } catch (DateTimeParseException ignored) {
+                    try {
+                        birthday = LocalDateTime.parse(line + "T00:00:00.0000", DateTimeFormatter.ISO_DATE_TIME);
+                        if (birthday.isAfter(LocalDateTime.now())) throw new InvalidRangeException();
+                        break;
+                    } catch (DateTimeParseException e) {
+                    } catch (InvalidRangeException e) {
+                        console.printError("Дата рождения не может быть позже текущей");
+                        continue;
+                    }
+                    console.printError("Ошибка чтения даты, требуемый формат:" + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) + " или 2020-02-20): ");
+                } catch (InvalidRangeException e) {
+                    console.printError("Дата рождения не может быть позже текущей");
                 }
-                try {
-                    birthday = LocalDateTime.parse(line + "T00:00:00.0000", DateTimeFormatter.ISO_DATE_TIME);
-                    break;
-                } catch (DateTimeParseException ignored) {
-                }
+
             }
             return birthday;
         } catch (NoSuchElementException | IllegalStateException e) {

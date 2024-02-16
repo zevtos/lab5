@@ -3,7 +3,7 @@ package ru.itmo.prog.lab5.commands;
 import ru.itmo.prog.lab5.exceptions.InvalidFormException;
 import ru.itmo.prog.lab5.exceptions.InvalidNumberOfElementsException;
 import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.forms.TicketForm;
 import ru.itmo.prog.lab5.utility.console.Console;
 
@@ -14,18 +14,18 @@ import ru.itmo.prog.lab5.utility.console.Console;
  */
 public class Add extends Command {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
 
     /**
      * Конструктор для создания экземпляра команды Add.
      *
      * @param console           объект для взаимодействия с консолью
-     * @param collectionManager менеджер коллекции
+     * @param ticketCollectionManager менеджер коллекции
      */
-    public Add(Console console, CollectionManager collectionManager) {
+    public Add(Console console, TicketCollectionManager ticketCollectionManager) {
         super("add {element}", "добавить новый объект Ticket в коллекцию");
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     /**
@@ -39,7 +39,7 @@ public class Add extends Command {
         try {
             if (arguments.length > 1 && !arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             console.println("* Создание нового билета:");
-            collectionManager.add((new TicketForm(console, collectionManager)).build());
+            ticketCollectionManager.add((new TicketForm(console, ticketCollectionManager)).build());
             console.println("Билет успешно добавлен!");
             return true;
 

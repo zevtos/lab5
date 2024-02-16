@@ -4,7 +4,7 @@ import ru.itmo.prog.lab5.exceptions.EmptyValueException;
 import ru.itmo.prog.lab5.exceptions.InvalidFormException;
 import ru.itmo.prog.lab5.exceptions.InvalidRangeException;
 import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.Coordinates;
 import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.models.Ticket;
@@ -19,11 +19,11 @@ import java.util.NoSuchElementException;
  */
 public class TicketForm extends Form<Ticket> {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
 
-    public TicketForm(Console console, CollectionManager collectionManager) {
+    public TicketForm(Console console, TicketCollectionManager ticketCollectionManager) {
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class TicketForm extends Form<Ticket> {
                 console.printError("Процент скидки должен быть в диапазоне от 0 до 100!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (NumberFormatException exception) {
-                console.printError("Скидка должна быть представлена целым числом!");
+                console.printError("Скидка должна быть представлена целым числом 0 < discount <= 100!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (NullPointerException | IllegalStateException exception) {
                 console.printError("Непредвиденная ошибка!");
@@ -167,6 +167,6 @@ public class TicketForm extends Form<Ticket> {
     }
 
     private Person askPerson() throws InvalidScriptInputException, InvalidFormException {
-        return new PersonForm(console, collectionManager).build();
+        return new PersonForm(console, ticketCollectionManager).build();
     }
 }

@@ -1,6 +1,6 @@
 package ru.itmo.prog.lab5.commands;
 
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
@@ -8,12 +8,12 @@ import ru.itmo.prog.lab5.utility.console.Console;
  */
 public class Clear extends Command {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
 
-    public Clear(Console console, CollectionManager collectionManager) {
+    public Clear(Console console, TicketCollectionManager ticketCollectionManager) {
         super("clear", "очистить коллекцию");
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     /**
@@ -27,7 +27,7 @@ public class Clear extends Command {
             return false;
         }
 
-        collectionManager.clearCollection();
+        ticketCollectionManager.clearCollection();
         console.println("Коллекция очищена!");
         return true;
     }

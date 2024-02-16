@@ -1,6 +1,6 @@
 package ru.itmo.prog.lab5.commands;
 
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 import java.time.LocalDateTime;
@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
  */
 public class Info extends Command {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
 
-    public Info(Console console, CollectionManager collectionManager) {
+    public Info(Console console, TicketCollectionManager ticketCollectionManager) {
         super("info", "вывести информацию о коллекции");
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     /**
@@ -29,13 +29,13 @@ public class Info extends Command {
             return false;
         }
 
-        LocalDateTime lastSaveTime = collectionManager.getLastSaveTime();
+        LocalDateTime lastSaveTime = ticketCollectionManager.getLastSaveTime();
         String lastSaveTimeString = (lastSaveTime == null) ? "в данной сессии сохранения еще не происходило" :
                 lastSaveTime.toLocalDate().toString() + " " + lastSaveTime.toLocalTime().toString();
 
         console.println("Сведения о коллекции:");
-        console.println(" Тип: " + collectionManager.collectionType());
-        console.println(" Количество элементов: " + collectionManager.collectionSize());
+        console.println(" Тип: " + ticketCollectionManager.collectionType());
+        console.println(" Количество элементов: " + ticketCollectionManager.collectionSize());
         console.println(" Дата последнего сохранения: " + lastSaveTimeString);
         return true;
     }

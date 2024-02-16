@@ -3,7 +3,7 @@ package ru.itmo.prog.lab5.commands;
 import ru.itmo.prog.lab5.exceptions.EmptyValueException;
 import ru.itmo.prog.lab5.exceptions.InvalidNumberOfElementsException;
 import ru.itmo.prog.lab5.exceptions.NotFoundException;
-import ru.itmo.prog.lab5.managers.CollectionManager;
+import ru.itmo.prog.lab5.managers.TicketCollectionManager;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
@@ -11,12 +11,12 @@ import ru.itmo.prog.lab5.utility.console.Console;
  */
 public class RemoveHead extends Command {
     private final Console console;
-    private final CollectionManager collectionManager;
+    private final TicketCollectionManager ticketCollectionManager;
 
-    public RemoveHead(Console console, CollectionManager collectionManager) {
+    public RemoveHead(Console console, TicketCollectionManager ticketCollectionManager) {
         super("remove_head", "вывести первый элемент коллекции и удалить его");
         this.console = console;
-        this.collectionManager = collectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     /**
@@ -27,14 +27,14 @@ public class RemoveHead extends Command {
     public boolean apply(String[] arguments) {
         try {
             if (arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
-            if (collectionManager.collectionSize() == 0) throw new EmptyValueException();
+            if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();
 
-            console.println(collectionManager.getFirst());
+            console.println(ticketCollectionManager.getFirst());
             var id = 0;
-            var productToRemove = collectionManager.byId(id);
+            var productToRemove = ticketCollectionManager.byId(id);
             if (productToRemove == null) throw new NotFoundException();
 
-            collectionManager.remove(productToRemove);
+            ticketCollectionManager.remove(productToRemove);
             console.println("Билет успешно удален.");
             return true;
 

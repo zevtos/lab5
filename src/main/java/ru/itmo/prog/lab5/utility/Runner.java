@@ -26,22 +26,8 @@ public class Runner {
      * Interactive mode for user input.
      */
     public void interactiveMode() {
-        try (Scanner userScanner = Interrogator.getUserScanner()) {
-            ExitCode commandStatus;
-            String[] userCommand;
-
-            do {
-                console.prompt();
-                userCommand = (userScanner.nextLine().trim() + " ").split(" ", 2);
-                userCommand[1] = userCommand[1].trim();
-
-                commandManager.addToHistory(userCommand[0]);
-                commandStatus = executeCommand(userCommand);
-            } while (commandStatus != ExitCode.EXIT);
-
-        } catch (NoSuchElementException | IllegalStateException exception) {
-            console.printError("An unexpected error occurred!");
-        }
+        InteractiveRunner interactiveRunner = new InteractiveRunner(console, commandManager);
+        interactiveRunner.run("");
     }
 
     /**
@@ -50,45 +36,8 @@ public class Runner {
      * @return The exit code.
      */
     public ExitCode scriptMode(String argument) {
-        String[] userCommand;
-        ExitCode commandStatus;
-        scriptStack.add(argument);
-        if (!new File(argument).exists()) {
-            argument = "../" + argument;
-        }
-        try (Scanner scriptScanner = new Scanner(new File(argument))) {
-            if (!scriptScanner.hasNext()) throw new NoSuchElementException();
-            Scanner tmpScanner = Interrogator.getUserScanner();
-            Interrogator.setUserScanner(scriptScanner);
-            Interrogator.setFileMode();
-
-            do {
-                userCommand = (scriptScanner.nextLine().trim() + " ").split(" ", 2);
-                userCommand[1] = userCommand[1].trim();
-                console.println(console.getPrompt() + String.join(" ", userCommand));
-                if (userCommand[0].equals("execute_script")) {
-                    for (String script : scriptStack) {
-                        if (userCommand[1].equals(script)) throw new ScriptRecursionException();
-                    }
-                }
-                commandStatus = executeCommand(userCommand);
-            } while (commandStatus == ExitCode.OK && scriptScanner.hasNextLine());
-
-            Interrogator.setUserScanner(tmpScanner);
-            Interrogator.setUserMode();
-
-            if (commandStatus == ExitCode.ERROR && !(userCommand[0].equals("execute_script") && !userCommand[1].isEmpty())) {
-                console.println("Please check the script for correct input data!");
-            }
-
-            return commandStatus;
-
-        } catch (FileNotFoundException | NoSuchElementException | ScriptRecursionException | IllegalStateException exception) {
-            console.printError("An unexpected error occurred!");
-        } finally {
-            scriptStack.remove(scriptStack.size() - 1);
-        }
-        return ExitCode.ERROR;
+        ScriptRunner scriptRunner = new ScriptRunner(console, commandManager, scriptStack);
+        return scriptRunner.run(argument);
     }
 
     /**
@@ -96,14 +45,11 @@ public class Runner {
      * @param userCommand The command to execute.
      * @return The exit code.
      */
-    private ExitCode executeCommand(String[] userCommand) {
+    private ExitCode executeCommand(String[] userCommand){
         if (userCommand[0].isEmpty()) return ExitCode.OK;
         var command = commandManager.getCommands().get(userCommand[0]);
 
-        if (command == null) {
-            console.printError("Command '" + userCommand[0] + "' not found. Type 'help' for assistance");
-            return ExitCode.ERROR;
-        }
+        if (command == null) throw new NoSuchElementException();
 
         switch (userCommand[0]) {
             case "exit" -> {
@@ -126,4 +72,3 @@ public class Runner {
         EXIT,
     }
 }
-
