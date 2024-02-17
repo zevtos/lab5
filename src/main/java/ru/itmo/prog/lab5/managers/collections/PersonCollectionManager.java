@@ -7,6 +7,7 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PersonCollectionManager implements CollectionManager<Person> {
     private final List<Person> collection = new ArrayList<>();
@@ -19,12 +20,16 @@ public class PersonCollectionManager implements CollectionManager<Person> {
     }
     @Override
     public void validateAll(Console console) {
+        AtomicBoolean flag = new AtomicBoolean(true);
         collection.forEach(person -> {
             if (!person.validate()) {
                 console.printError("Персона с паспортом " + person.getPassportID() + " имеет недопустимые поля.");
+                flag.set(false);
             }
         });
-        console.println("! Загруженные персоны валидны.");
+        if (flag.get()) {
+            console.println("! Загруженные персоны валидны.");
+        }
     }
 
     @Override
@@ -167,6 +172,11 @@ public class PersonCollectionManager implements CollectionManager<Person> {
     }
 
     public void addAll(Collection<Person> persons) {
-        collection.addAll(persons);
+        for (Person person : persons) {
+            if (!contains(person.getPassportID())) {
+                collection.add(person);
+            }
+        }
     }
+
 }

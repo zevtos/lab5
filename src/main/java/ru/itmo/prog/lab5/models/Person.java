@@ -3,8 +3,6 @@ package ru.itmo.prog.lab5.models;
 import ru.itmo.prog.lab5.utility.base.Validatable;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class Person implements Validatable {
@@ -32,6 +30,7 @@ public class Person implements Validatable {
     }
 
     public boolean validate() {
+        if(birthday != null && birthday.isAfter(LocalDateTime.now())) return false;
         if (height != null && height <= 0) return false;
         if (passportID == null) return false;
         return hairColor != null;

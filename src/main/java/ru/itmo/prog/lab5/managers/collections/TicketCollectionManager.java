@@ -4,12 +4,12 @@ import ru.itmo.prog.lab5.exceptions.DuplicateException;
 import ru.itmo.prog.lab5.managers.DumpManager;
 import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.models.Ticket;
-import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.Console;
 import ru.itmo.prog.lab5.utility.console.StandardConsole;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TicketCollectionManager implements CollectionManager<Ticket> {
     private int currentId = 1;
@@ -34,12 +34,16 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
     }
 
     public void validateAll(Console console) {
+        AtomicBoolean flag = new AtomicBoolean(true);
         collection.forEach(ticket -> {
             if (!ticket.validate()) {
                 console.printError("Билет с id=" + ticket.getId() + " имеет недопустимые поля.");
+                flag.set(false);
             }
         });
-        console.println("! Загруженные билеты валидны.");
+        if (flag.get()) {
+            console.println("! Загруженные билеты валидны.");
+        }
     }
 
     /**
@@ -71,11 +75,14 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
     /**
      * Содержит ли коллекции Ticket
      */
-    @Override
     public boolean contains(Ticket ticket) {
-        return collection.contains(ticket);
+        for (Ticket t : collection) {
+            if (t.getId() == ticket.getId()) {
+                return true;
+            }
+        }
+        return false;
     }
-
 
     /**
      * Получить свободный ID
@@ -103,6 +110,14 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
         collection.add(ticket);
         update();
         return true;
+    }
+
+    public void addAll(Collection<Ticket> tickets) {
+        for (Ticket ticket : tickets) {
+            if (!contains(ticket)) {
+                collection.add(ticket);
+            }
+        }
     }
 
 

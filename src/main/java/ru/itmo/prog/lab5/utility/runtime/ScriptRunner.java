@@ -4,8 +4,6 @@ import ru.itmo.prog.lab5.exceptions.ScriptRecursionException;
 import ru.itmo.prog.lab5.managers.CommandManager;
 import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.Console;
-import ru.itmo.prog.lab5.utility.runtime.ModeRunner;
-import ru.itmo.prog.lab5.utility.runtime.Runner;
 
 import java.io.File;
 import java.io.FileNotFoundException;

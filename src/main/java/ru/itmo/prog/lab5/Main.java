@@ -15,7 +15,6 @@ import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.Console;
 import ru.itmo.prog.lab5.utility.console.StandardConsole;
 import ru.itmo.prog.lab5.utility.runtime.Runner;
-import sun.misc.Signal;
 
 import java.util.Scanner;
 
@@ -40,6 +39,7 @@ public class Main {
 
         Ticket.updateNextId(ticketCollectionManager);
         ticketCollectionManager.validateAll(console);
+        personCollectionManager.validateAll(console);
 
         var commandManager = createCommandManager(console, ticketCollectionManager, personCollectionManager);
 
