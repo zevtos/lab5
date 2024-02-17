@@ -12,18 +12,26 @@ import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.Console;
+import ru.itmo.prog.lab5.utility.console.DiagnosticSignalHandler;
 import ru.itmo.prog.lab5.utility.console.StandardConsole;
 import ru.itmo.prog.lab5.utility.runtime.Runner;
 import sun.misc.Signal;
 import sun.misc.SignalHandler;
-import java.util.Scanner;
+
+import java.util.*;
 
 public class Main {
     private static final int MISSING_FILE_ARGUMENT_EXIT_CODE = 1;
 
     public static void main(String[] args) {
-        Signal.handle(new Signal("INT"),  // SIGINT
-                signal -> System.out.println("Для завершения программы достаточно ввести 'exit'"));
+        SignalHandler signalHandler = new SignalHandler(){
+            @Override
+            public void handle(Signal sig) {
+            }
+        };
+        DiagnosticSignalHandler.install("TERM", signalHandler);
+        DiagnosticSignalHandler.install("INT", signalHandler);
+        DiagnosticSignalHandler.install("ABRT", signalHandler);
         Interrogator.setUserScanner(new Scanner(System.in));
         var console = new StandardConsole();
 

@@ -16,5 +16,23 @@
     "height": 1.7832113E11,
     "passportID": "312312312]",
     "hairColor": "GREEN"
+  },
+  {
+    "birthday": "2006-02-07",
+    "height": 180.0,
+    "passportID": "409315",
+    "hairColor": "BLACK"
+  },
+  {
+    "birthday": "2005-05-12",
+    "height": 188.0,
+    "passportID": "412991",
+    "hairColor": "YELLOW"
+  },
+  {
+    "birthday": "2029-02-28",
+    "height": 1.7832113E11,
+    "passportID": "312312312]",
+    "hairColor": "GREEN"
   }
 ]
