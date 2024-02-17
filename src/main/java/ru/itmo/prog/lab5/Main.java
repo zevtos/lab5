@@ -23,13 +23,18 @@ public class Main {
     private static final int MISSING_FILE_ARGUMENT_EXIT_CODE = 1;
 
     public static void main(String[] args) {
-        Signal.handle(new Signal("INT"),  // SIGINT
-                signal -> System.out.println("Для получения справки введите 'help', для завершения программы введите 'exit'"));
-        Signal.handle(new Signal("TERM"),  // SIGINT
-                signal -> System.out.println("Для получения справки введите 'help', для завершения программы введите 'exit'"));
 
         Interrogator.setUserScanner(new Scanner(System.in));
         var console = new StandardConsole();
+
+        Signal.handle(new Signal("INT"),  // SIGINT
+                signal -> System.out.println("Для получения справки введите 'help', для завершения программы введите 'exit" + '\n' + console.getPrompt()));
+        Signal.handle(new Signal("TERM"),  // SIGINT
+                signal -> System.out.println("Для получения справки введите 'help', для завершения программы введите 'exit" + '\n' + console.getPrompt()));
+        try {
+            Signal.handle(new Signal("TSTP"),  // SIGINT
+                    signal -> System.out.println("Для получения справки введите 'help', для завершения программы введите 'exit" + '\n' + console.getPrompt()));
+        }catch (IllegalArgumentException ignored){}
 
         checkFileArgument(args, console);
 
