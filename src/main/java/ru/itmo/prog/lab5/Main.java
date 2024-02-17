@@ -28,14 +28,17 @@ public class Main {
         var console = new StandardConsole();
 
         Signal.handle(new Signal("INT"),  // SIGINT
-                signal -> System.out.print("Для получения справки введите 'help', для завершения программы введите 'exit" + '\n' + console.getPrompt()));
+                signal -> System.out.print('\n' + "Для получения справки введите 'help', для завершения программы введите 'exit" + '\n' + console.getPrompt()));
         Signal.handle(new Signal("TERM"),  // SIGINT
-                signal -> System.out.print("Для получения справки введите 'help', для завершения программы введите 'exit" + '\n' + console.getPrompt()));
+                signal -> System.out.print('\n' + "Для получения справки введите 'help', для завершения программы введите 'exit" + '\n' + console.getPrompt()));
         try {
             Signal.handle(new Signal("TSTP"),  // SIGINT
-                    signal -> System.out.print("Для получения справки введите 'help', для завершения программы введите 'exit" + '\n' + console.getPrompt()));
+                    signal -> System.out.print('\n' + "Для получения справки введите 'help', для завершения программы введите 'exit" + '\n' + console.getPrompt()));
         }catch (IllegalArgumentException ignored){}
-
+        try {
+            Signal.handle(new Signal("BREAK"),  // SIGINT
+                    signal -> System.out.print('\n' + "Для получения справки введите 'help', для завершения программы введите 'exit" + '\n' + console.getPrompt()));
+        }catch (IllegalArgumentException ignored){}
         checkFileArgument(args, console);
 
         PersonCollectionManager personCollectionManager = null;
