@@ -10,6 +10,7 @@ import ru.itmo.prog.lab5.utility.runtime.Runner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ScriptRunner implements ModeRunner {
@@ -54,12 +55,20 @@ public class ScriptRunner implements ModeRunner {
             Interrogator.setUserMode();
 
         } catch (java.util.NoSuchElementException | IllegalStateException exception) {
-            console.printError("Ошибка ввода. Экстренное завершение программы");
-            userCommand = new String[2];
-            userCommand[0] = "save";
-            userCommand[1] = "";
-            executeCommand(userCommand);
-            return Runner.ExitCode.ERROR;
+            console.printError("Ошибка ввода.");
+            try {
+                Interrogator.getUserScanner().hasNext();
+                return run("");
+            } catch (NoSuchElementException | IllegalStateException exception1){
+                console.printError("Экстренное завершение программы");
+                userCommand = new String[2];
+                userCommand[0] = "save";
+                userCommand[1] = "";
+                executeCommand(userCommand);
+                userCommand[0] = "exit";
+                executeCommand(userCommand);
+                return Runner.ExitCode.ERROR;
+            }
         } catch (FileNotFoundException exception){
             console.printError("Файл не найден");
             return Runner.ExitCode.ERROR;

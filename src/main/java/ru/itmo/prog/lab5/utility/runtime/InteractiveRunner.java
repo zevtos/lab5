@@ -40,11 +40,12 @@ public class InteractiveRunner implements ModeRunner {
             } while (commandStatus != Runner.ExitCode.EXIT);
             return commandStatus;
         } catch (NoSuchElementException | IllegalStateException exception) {
-            console.printError("Ошибка ввода. Экстренное завершение программы");
+            console.printError("Ошибка ввода.");
             try {
                 Interrogator.getUserScanner().hasNext();
                 return run("");
             } catch (NoSuchElementException | IllegalStateException exception1){
+                console.printError("Экстренное завершение программы");
                 userCommand = new String[2];
                 userCommand[0] = "save";
                 userCommand[1] = "";
