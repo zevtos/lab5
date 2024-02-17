@@ -16,7 +16,6 @@ import ru.itmo.prog.lab5.utility.console.DiagnosticSignalHandler;
 import ru.itmo.prog.lab5.utility.console.StandardConsole;
 import ru.itmo.prog.lab5.utility.runtime.Runner;
 import sun.misc.Signal;
-import sun.misc.SignalHandler;
 
 import java.util.*;
 
@@ -24,15 +23,11 @@ public class Main {
     private static final int MISSING_FILE_ARGUMENT_EXIT_CODE = 1;
 
     public static void main(String[] args) {
-        SignalHandler signalHandler = new SignalHandler(){
-            @Override
-            public void handle(Signal sig) {
-                System.out.println("Для завершения программы необходимо ввести 'exit'" + '\n' + "Введите 'help' для справки");
-            }
-        };
-        DiagnosticSignalHandler.install("TERM", signalHandler);
-        DiagnosticSignalHandler.install("INT", signalHandler);
-        DiagnosticSignalHandler.install("ABRT", signalHandler);
+        Signal.handle(new Signal("INT"),  // SIGINT
+                signal -> System.out.println("Для получения справки введите 'help', для завершения программы введите 'exit'"));
+        Signal.handle(new Signal("TERM"),  // SIGINT
+                signal -> System.out.println("Для получения справки введите 'help', для завершения программы введите 'exit'"));
+
         Interrogator.setUserScanner(new Scanner(System.in));
         var console = new StandardConsole();
 
