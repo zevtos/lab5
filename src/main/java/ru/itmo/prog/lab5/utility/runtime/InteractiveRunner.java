@@ -21,12 +21,11 @@ public class InteractiveRunner implements ModeRunner {
     public Runner.ExitCode run(String argument) {
         String[] userCommand;
         try (Scanner userScanner = Interrogator.getUserScanner()) {
-            Runner.ExitCode commandStatus = Runner.ExitCode.OK;
+            Runner.ExitCode commandStatus;
             do {
                 console.prompt();
                 String inputLine = "";
                 inputLine = userScanner.nextLine().trim();
-                if (inputLine.isEmpty()) continue;
                 userCommand = (inputLine + " ").split(" ", 2);
                 userCommand[1] = userCommand[1].trim();
 

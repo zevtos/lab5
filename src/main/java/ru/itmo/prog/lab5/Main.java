@@ -12,7 +12,6 @@ import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
 import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.utility.Interrogator;
-import ru.itmo.prog.lab5.utility.console.Console;
 import ru.itmo.prog.lab5.utility.console.StandardConsole;
 import ru.itmo.prog.lab5.utility.runtime.Runner;
 
@@ -20,13 +19,12 @@ import java.util.Scanner;
 
 public class Main {
     private static final int MISSING_FILE_ARGUMENT_EXIT_CODE = 1;
-
+    private static final StandardConsole console = new StandardConsole();
     public static void main(String[] args) {
 
         Interrogator.setUserScanner(new Scanner(System.in));
-        var console = new StandardConsole();
-        SignalManager signalManager = createSignalManger(console);
-        checkFileArgument(args, console);
+        createSignalManger();
+        checkFileArgument(args);
 
         PersonCollectionManager personCollectionManager = null;
         if (args.length > 1) {
@@ -41,17 +39,17 @@ public class Main {
         ticketCollectionManager.validateAll(console);
         personCollectionManager.validateAll(console);
 
-        var commandManager = createCommandManager(console, ticketCollectionManager, personCollectionManager);
+        var commandManager = createCommandManager(ticketCollectionManager, personCollectionManager);
 
         new Runner(console, commandManager).interactiveMode();
     }
-    private static void checkFileArgument(String[] args, Console console) {
+    private static void checkFileArgument(String[] args) {
         if (args.length == 0) {
             console.println("Введите имя загружаемого файла как аргумент командной строки");
             System.exit(MISSING_FILE_ARGUMENT_EXIT_CODE);
         }
     }
-    private static CommandManager createCommandManager(Console console, TicketCollectionManager ticketCollectionManager, PersonCollectionManager personCollectionManager) {
+    private static CommandManager createCommandManager(TicketCollectionManager ticketCollectionManager, PersonCollectionManager personCollectionManager) {
         return new CommandManager() {{
             register("help", new Help(console, this));
             register("info", new Info(console, ticketCollectionManager));
@@ -74,7 +72,7 @@ public class Main {
         }};
     }
 
-    private static SignalManager createSignalManger(Console console) {
+    private static SignalManager createSignalManger() {
         String message = '\n' + "Для получения справки введите 'help', для завершения программы введите 'exit'" + '\n' + console.getPrompt();
         return new SignalManager() {{
             register("INT", message);

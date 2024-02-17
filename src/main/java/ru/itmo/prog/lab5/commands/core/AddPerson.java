@@ -40,10 +40,13 @@ public class AddPerson extends Command {
         try {
             if (arguments.length > 1 && !arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             console.println("* Создание нового пользователя:");
-            ticketCollectionManager.getPersonManager().add((new PersonForm(console, ticketCollectionManager)).build());
-            console.println("Пользователь успешно добавлен!");
-            return true;
-
+            if(ticketCollectionManager.getPersonManager().add((new PersonForm(console, ticketCollectionManager)).build())) {
+                console.println("Пользователь успешно добавлен!");
+                return true;
+            }else{
+                console.println("Пользователь с таким PassportID уже существует!");
+                return false;
+            }
         } catch (InvalidNumberOfElementsException exception) {
             console.printError("Неправильное количество аргументов!");
             console.println("Использование: '" + getName() + "'");

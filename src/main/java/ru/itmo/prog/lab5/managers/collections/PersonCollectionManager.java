@@ -129,6 +129,7 @@ public class PersonCollectionManager implements CollectionManager<Person> {
     @Override
     public void saveCollection() {
         dumpManager.writeCollection(collection);
+        lastSaveTime = LocalDateTime.now();
     }
 
     @Override
@@ -177,6 +178,12 @@ public class PersonCollectionManager implements CollectionManager<Person> {
                 collection.add(person);
             }
         }
+    }
+    /**
+     * @return Последнее время сохранения.
+     */
+    public LocalDateTime getLastSaveTime() {
+        return lastSaveTime;
     }
 
 }

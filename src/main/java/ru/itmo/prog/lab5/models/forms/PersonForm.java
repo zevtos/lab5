@@ -35,11 +35,11 @@ public class PersonForm extends Form<Person> {
         String input = Interrogator.getUserScanner().nextLine().trim();
         if (fileMode) console.println(input);
         if (input.equals("null")) return null;
-
+        boolean flag = false;
         try {
             if (input.startsWith("id=") || input.startsWith("ID=")) {
                 input = input.replaceFirst("^(id=|ID=)", "");
-
+                flag = true;
                 var person = personCollectionManager.byId(input);
                 if (person == null) throw new InvalidNumberOfElementsException();
                 return person;
@@ -51,7 +51,15 @@ public class PersonForm extends Form<Person> {
             console.printError("Человек с таким ID не существует.");
         }
 
-
+        if(flag){
+            console.println("! Добавление новой личности:");
+            return new Person(
+                    askBirthday(),
+                    askHeight(),
+                    input,
+                    askHairColor()
+            );
+        }
         console.println("! Добавление новой личности:");
         var person = new Person(
                 askBirthday(),

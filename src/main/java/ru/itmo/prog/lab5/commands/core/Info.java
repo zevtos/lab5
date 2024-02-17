@@ -30,14 +30,19 @@ public class Info extends Command {
             return false;
         }
 
-        LocalDateTime lastSaveTime = ticketCollectionManager.getLastSaveTime();
-        String lastSaveTimeString = (lastSaveTime == null) ? "в данной сессии сохранения еще не происходило" :
-                lastSaveTime.toLocalDate().toString() + " " + lastSaveTime.toLocalTime().toString();
-
+        LocalDateTime TicketLastSaveTime = ticketCollectionManager.getLastSaveTime();
+        String TicketslastSaveTimeString = (TicketLastSaveTime == null) ? "в данной сессии сохранения еще не происходило" :
+                TicketLastSaveTime.toLocalDate().toString() + " " + TicketLastSaveTime.toLocalTime().toString();
+        LocalDateTime personLastSaveTime = (ticketCollectionManager.getPersonManager().getLastSaveTime());
+        String personsLastSaveTimeString = (personLastSaveTime == null) ? "в данной сессии сохранения еще не происходило" :
+                personLastSaveTime.toLocalDate().toString() + " " + TicketLastSaveTime.toLocalTime().toString();
         console.println("Сведения о коллекции:");
         console.println(" Тип: " + ticketCollectionManager.collectionType());
-        console.println(" Количество элементов: " + ticketCollectionManager.collectionSize());
-        console.println(" Дата последнего сохранения: " + lastSaveTimeString);
+        console.println(" Количество элементов Ticket: " + ticketCollectionManager.collectionSize());
+        console.println(" Количество элементов Person: " + ticketCollectionManager.getPersonManager().collectionSize());
+        console.println(" Дата последнего сохранения:");
+        console.println("\tTickets: " + TicketslastSaveTimeString);
+        console.println("\tPersons: " + personsLastSaveTimeString);
         return true;
     }
 }

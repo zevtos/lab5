@@ -114,7 +114,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Run",
+    "Application.Main.executor": "Debug",
     "Application.Unnamed.executor": "Run",
     "Attach to process.pid 31504.executor": "ProcessAttachDebug",
     "Downloaded.Files.Path.Enabled": "false",
