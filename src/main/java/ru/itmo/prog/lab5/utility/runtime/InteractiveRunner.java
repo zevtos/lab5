@@ -19,12 +19,15 @@ public class InteractiveRunner implements ModeRunner {
 
     @Override
     public Runner.ExitCode run(String argument) {
+        String[] userCommand;
         try (Scanner userScanner = Interrogator.getUserScanner()) {
-            Runner.ExitCode commandStatus;
-            String[] userCommand;
+            Runner.ExitCode commandStatus = Runner.ExitCode.OK;
             do {
                 console.prompt();
-                userCommand = (userScanner.nextLine().trim() + " ").split(" ", 2);
+                String inputLine = "";
+                inputLine = userScanner.nextLine().trim();
+                if (inputLine.isEmpty()) continue;
+                userCommand = (inputLine + " ").split(" ", 2);
                 userCommand[1] = userCommand[1].trim();
 
                 try {
@@ -35,11 +38,22 @@ public class InteractiveRunner implements ModeRunner {
                 }
                 commandManager.addToHistory(userCommand[0]);
             } while (commandStatus != Runner.ExitCode.EXIT);
-
+            return commandStatus;
         } catch (NoSuchElementException | IllegalStateException exception) {
-            console.printError("An unexpected error occurred!");
+            console.printError("Ошибка ввода. Экстренное завершение программы");
+            try {
+                Interrogator.getUserScanner().hasNext();
+                return run("");
+            } catch (NoSuchElementException | IllegalStateException exception1){
+                userCommand = new String[2];
+                userCommand[0] = "save";
+                userCommand[1] = "";
+                executeCommand(userCommand);
+                userCommand[0] = "exit";
+                executeCommand(userCommand);
+                return Runner.ExitCode.ERROR;
+            }
         }
-        return Runner.ExitCode.OK;
     }
 
     private Runner.ExitCode executeCommand(String[] userCommand) {

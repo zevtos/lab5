@@ -21,12 +21,12 @@ public class AddPerson extends Command {
      * Конструктор для создания экземпляра команды Add.
      *
      * @param console              объект для взаимодействия с консолью
-     * @param personCollectionManager менеджер коллекции
+     * @param ticketCollectionManager менеджер коллекции
      */
-    public AddPerson(Console console, TicketCollectionManager personCollectionManager) {
-        super("add {element}", "добавить новый объект Person в коллекцию");
+    public AddPerson(Console console, TicketCollectionManager ticketCollectionManager) {
+        super("add_person {element}", "добавить новый объект Person в коллекцию");
         this.console = console;
-        this.ticketCollectionManager = personCollectionManager;
+        this.ticketCollectionManager = ticketCollectionManager;
     }
 
     /**

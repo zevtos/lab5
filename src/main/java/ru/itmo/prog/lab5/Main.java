@@ -67,6 +67,7 @@ public class Main {
             register("min_by_discount", new MinByDiscount(console, ticketCollectionManager));
             register("max_by_name", new MaxByName(console, ticketCollectionManager));
             register("history", new History(console, this));
+            register("add_person", new AddPerson(console, ticketCollectionManager));
         }};
     }
 

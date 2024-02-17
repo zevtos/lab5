@@ -30,6 +30,7 @@ public class ScriptRunner implements ModeRunner {
         if (!new File(argument).exists()) {
             argument = "../" + argument;
         }
+        String[] userCommand;
         try (Scanner scriptScanner = new Scanner(new File(argument))) {
             if (!scriptScanner.hasNext()) throw new java.util.NoSuchElementException();
             Scanner tmpScanner = Interrogator.getUserScanner();
@@ -37,7 +38,7 @@ public class ScriptRunner implements ModeRunner {
             Interrogator.setFileMode();
 
             do {
-                String[] userCommand = (scriptScanner.nextLine().trim() + " ").split(" ", 2);
+                userCommand = (scriptScanner.nextLine().trim() + " ").split(" ", 2);
                 userCommand[1] = userCommand[1].trim();
                 console.println(console.getPrompt() + String.join(" ", userCommand));
                 if (userCommand[0].equals("execute_script")) {
@@ -52,8 +53,18 @@ public class ScriptRunner implements ModeRunner {
             Interrogator.setUserScanner(tmpScanner);
             Interrogator.setUserMode();
 
-        } catch (FileNotFoundException | java.util.NoSuchElementException | ScriptRecursionException | IllegalStateException exception) {
-            console.printError("An unexpected error occurred!");
+        } catch (java.util.NoSuchElementException | IllegalStateException exception) {
+            console.printError("Ошибка ввода. Экстренное завершение программы");
+            userCommand = new String[2];
+            userCommand[0] = "save";
+            userCommand[1] = "";
+            executeCommand(userCommand);
+            return Runner.ExitCode.ERROR;
+        } catch (FileNotFoundException exception){
+            console.printError("Файл не найден");
+            return Runner.ExitCode.ERROR;
+        } catch (ScriptRecursionException exception){
+            console.printError("Обнаружена рекурсия");
             return Runner.ExitCode.ERROR;
         } finally {
             scriptStack.remove(scriptStack.size() - 1);
