@@ -19,6 +19,14 @@
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
+        <dependency>
+            <groupId>sun.misc.Signal</groupId>
+            <artifactId>signal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>sun.misc.SignalHandler</groupId>
+            <artifactId>SignalHandler</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

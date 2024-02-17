@@ -27,6 +27,7 @@ public class Main {
         SignalHandler signalHandler = new SignalHandler(){
             @Override
             public void handle(Signal sig) {
+                System.out.println("Для завершения программы необходимо ввести 'exit'" + '\n' + "Введите 'help' для справки");
             }
         };
         DiagnosticSignalHandler.install("TERM", signalHandler);
