@@ -12,9 +12,12 @@ public class InteractiveRunner implements ModeRunner {
     private final Console console;
     private final CommandManager commandManager;
 
-    public InteractiveRunner(Console console, CommandManager commandManager) {
+    private final ScriptRunner scriptRunner;
+
+    public InteractiveRunner(Console console, CommandManager commandManager, ScriptRunner scriptRunner) {
         this.console = console;
         this.commandManager = commandManager;
+        this.scriptRunner = scriptRunner;
     }
 
     @Override
@@ -69,7 +72,7 @@ public class InteractiveRunner implements ModeRunner {
             }
             case "execute_script" -> {
                 if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;
-                else return Runner.ExitCode.ERROR; // Interactive mode doesn't support script execution.
+                else return scriptRunner.run(userCommand[1]); // Interactive mode doesn't support script execution.
             }
             default -> {
                 if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;

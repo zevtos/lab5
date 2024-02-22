@@ -35,7 +35,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ru.itmo.prog.lab5.Main</mainClass>
+                                    <mainClass>ru.itmo.prog.lab5.main.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

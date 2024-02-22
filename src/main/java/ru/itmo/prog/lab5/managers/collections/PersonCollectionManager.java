@@ -23,12 +23,12 @@ public class PersonCollectionManager implements CollectionManager<Person> {
         AtomicBoolean flag = new AtomicBoolean(true);
         collection.forEach(person -> {
             if (!person.validate()) {
-                console.printError("Персона с паспортом " + person.getPassportID() + " имеет недопустимые поля.");
+                console.printError("Человек с паспортом " + person.getPassportID() + " имеет недопустимые поля.");
                 flag.set(false);
             }
         });
         if (flag.get()) {
-            console.println("! Загруженные персоны валидны.");
+            console.println("! Загруженные объекты person валидны.");
         }
     }
 

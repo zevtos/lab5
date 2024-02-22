@@ -1,4 +1,4 @@
-package ru.itmo.prog.lab5;
+package ru.itmo.prog.lab5.main;
 
 import ru.itmo.prog.lab5.commands.core.*;
 import ru.itmo.prog.lab5.commands.custom.*;
@@ -13,7 +13,9 @@ import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.StandardConsole;
+import ru.itmo.prog.lab5.utility.runtime.InteractiveRunner;
 import ru.itmo.prog.lab5.utility.runtime.Runner;
+import ru.itmo.prog.lab5.utility.runtime.ScriptRunner;
 
 import java.util.Scanner;
 
@@ -41,7 +43,8 @@ public class Main {
 
         var commandManager = createCommandManager(ticketCollectionManager, personCollectionManager);
 
-        new Runner(console, commandManager).interactiveMode();
+        InteractiveRunner interactiveRunner = new InteractiveRunner(console, commandManager, new ScriptRunner(console, commandManager));
+        interactiveRunner.run("");
     }
     private static void checkFileArgument(String[] args) {
         if (args.length == 0) {
@@ -80,5 +83,5 @@ public class Main {
             register("TSTP", message);
             register("BREAK", message);
         }};
-    }
+    } 
 }

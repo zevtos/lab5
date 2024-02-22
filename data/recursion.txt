@@ -1,3 +1,6 @@
 info
-execute_script data/recursion.txt
+execute_script data/script.txt
+execute_script data/script.txt
+execute_script data/script.txt
+execute_script data/script.txt
 info

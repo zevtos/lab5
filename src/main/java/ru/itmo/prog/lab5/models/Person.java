@@ -1,17 +1,20 @@
 package ru.itmo.prog.lab5.models;
 
-import ru.itmo.prog.lab5.utility.base.Validatable;
+import ru.itmo.prog.lab5.utility.base.Element;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Person implements Validatable {
+public class Person extends Element {
+    private static int nextId;
+    private Integer id;
     private LocalDateTime birthday; //Поле может быть null
     private Float height; //Поле может быть null, Значение поля должно быть больше 0
     private String passportID; //Поле не может быть null
     private Color hairColor; //Поле не может быть null
 
     public Person(LocalDateTime birthday, Float height, String passportID, Color hairColor) {
+        this.id = nextId++;
         this.birthday = birthday;
         this.height = height;
         this.passportID = passportID;
@@ -49,5 +52,15 @@ public class Person implements Validatable {
 
     public String getPassportID() {
         return passportID;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public int compareTo(Element element) {
+        return Integer.compare(this.getId(), element.getId());
     }
 }

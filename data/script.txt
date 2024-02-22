@@ -1,5 +1,1 @@
 info
-show
-remove_first
-show
-execute_script data/recursion.txtshow

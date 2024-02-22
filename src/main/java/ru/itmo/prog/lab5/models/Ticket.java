@@ -20,7 +20,7 @@ public class Ticket extends Element {
     private Person person; //Поле не может быть null
 
     public Ticket(String name, Coordinates coordinates, ZonedDateTime creationDate, double price, Long discount, String comment, TicketType type, Person person) {
-        this.id = nextId;
+        this.id = nextId++;
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = creationDate;

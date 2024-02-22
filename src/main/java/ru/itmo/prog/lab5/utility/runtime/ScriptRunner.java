@@ -7,6 +7,7 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -15,12 +16,16 @@ public class ScriptRunner implements ModeRunner {
 
     private final Console console;
     private final CommandManager commandManager;
-    private final List<String> scriptStack;
+    private final List<String> scriptStack = new ArrayList<>();
 
     public ScriptRunner(Console console, CommandManager commandManager, List<String> scriptStack) {
         this.console = console;
         this.commandManager = commandManager;
-        this.scriptStack = scriptStack;
+        this.scriptStack.addAll(scriptStack);
+    }
+    public ScriptRunner(Console console, CommandManager commandManager) {
+        this.console = console;
+        this.commandManager = commandManager;
     }
 
     @Override
@@ -29,6 +34,7 @@ public class ScriptRunner implements ModeRunner {
         if (!new File(argument).exists()) {
             argument = "../" + argument;
         }
+
         String[] userCommand;
         try (Scanner scriptScanner = new Scanner(new File(argument))) {
             if (!scriptScanner.hasNext()) throw new java.util.NoSuchElementException();
@@ -85,11 +91,19 @@ public class ScriptRunner implements ModeRunner {
 
         if (command == null) throw new java.util.NoSuchElementException();
 
-        if (userCommand[0].equals("exit")) {
-            if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;
-            else return Runner.ExitCode.EXIT;
-        } else {
-            return command.apply(userCommand) ? Runner.ExitCode.OK : Runner.ExitCode.ERROR;
+        switch (userCommand[0]) {
+            case "exit" -> {
+                if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;
+                else return Runner.ExitCode.EXIT;
+            }
+            case "execute_script" -> {
+                if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;
+                else return this.run(userCommand[1]); // Interactive mode doesn't support script execution.
+            }
+            default -> {
+                if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;
+            }
         }
+        return Runner.ExitCode.OK;
     }
 }
