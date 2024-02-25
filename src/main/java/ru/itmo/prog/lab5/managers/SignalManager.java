@@ -23,7 +23,7 @@ public class SignalManager {
     public void register(String signalName, String message, Console console) {
         try {
             signals.put(signalName, new Signal(signalName));
-            Signal.handle(signals.get(signalName), signal -> {System.out.println(message);
+            Signal.handle(signals.get(signalName), signal -> {System.out.print(message + signalName);
                 });
         } catch (IllegalArgumentException ignored) {
             // Игнорируем исключение, если сигнал с таким названием уже существует

@@ -108,6 +108,7 @@ public class Main {
             register("TERM", message, console);
             register("TSTP", message, console);
             register("BREAK", message, console);
+            register("EOF", message, console);
         }};
     }
 }
