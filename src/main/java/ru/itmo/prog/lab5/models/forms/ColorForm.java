@@ -8,11 +8,17 @@ import ru.itmo.prog.lab5.utility.console.Console;
 import java.util.NoSuchElementException;
 
 /**
- * Форма цвета волос.
+ * Форма для ввода цвета волос.
+ * @author zevtos
  */
 public class ColorForm extends Form<Color> {
     private final Console console;
 
+    /**
+     * Конструктор формы для ввода цвета волос.
+     *
+     * @param console консоль для взаимодействия с пользователем
+     */
     public ColorForm(Console console) {
         this.console = console;
     }
@@ -38,10 +44,10 @@ public class ColorForm extends Form<Color> {
                 console.printError("Цвет волос не распознан!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (IllegalArgumentException exception) {
-                console.printError("Цвета волос нет в списке!");
+                console.printError("Такого цвета волос нет в списке!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (IllegalStateException exception) {
-                console.printError("Непредвиденная ошибка!");
+                console.printError("Произошла непредвиденная ошибка!");
                 System.exit(0);
             }
         }

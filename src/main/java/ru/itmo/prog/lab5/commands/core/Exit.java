@@ -5,7 +5,6 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'exit'. Завершает выполнение программы (без сохранения в файл).
- *
  * @author zevtos
  */
 public class Exit extends Command {

@@ -1,10 +1,16 @@
 package ru.itmo.prog.lab5.models;
 
+import ru.itmo.prog.lab5.managers.collections.PersonCollectionManager;
+import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
 import ru.itmo.prog.lab5.utility.base.Element;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Класс, представляющий объект персоны.
+ * @author zevtos
+ */
 public class Person extends Element {
     private static int nextId;
     private Integer id;
@@ -21,10 +27,14 @@ public class Person extends Element {
         this.hairColor = hairColor;
     }
 
-
+    /**
+     * Представляет персону в виде строки.
+     * @return Строковое представление персоны.
+     */
     @Override
     public String toString() {
         return "Person{" +
+                "\n\t\tid=" + id +
                 "\n\t\tbirthday=" + (birthday == null ? "null" : birthday) +
                 "\n\t\theight=" + (height == null ? "null" : height) +
                 "\n\t\tpassportID='" + passportID + '\'' +
@@ -32,12 +42,22 @@ public class Person extends Element {
                 "\n\t}";
     }
 
+    /**
+     * Проверяет, является ли персона валидной.
+     * @return true, если персона валидна, иначе false.
+     */
     public boolean validate() {
         if(birthday != null && birthday.isAfter(LocalDateTime.now())) return false;
         if (height != null && height <= 0) return false;
         if (passportID == null) return false;
         return hairColor != null;
     }
+
+    /**
+     * Проверяет равенство персон по паспортному ID.
+     * @param o Объект для сравнения.
+     * @return true, если объекты равны по паспортному ID, иначе false.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,6 +65,7 @@ public class Person extends Element {
         Person that = (Person) o;
         return Objects.equals(passportID, that.passportID);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(birthday, passportID);
@@ -52,6 +73,14 @@ public class Person extends Element {
 
     public String getPassportID() {
         return passportID;
+    }
+
+    /**
+     * Обновляет указатель следующего ID.
+     * @param personCollectionManager Менеджер коллекций персон.
+     */
+    public static void updateNextId(PersonCollectionManager personCollectionManager) {
+        nextId = personCollectionManager.getFreeId();
     }
 
     @Override

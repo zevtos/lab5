@@ -6,13 +6,14 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'history'. Выводит историю использованных команд.
+ * @author zevtos
  */
 public class History extends Command {
     private final Console console;
     private final CommandManager commandManager;
 
     /**
-     * Конструктор для создания экземпляра команды Help.
+     * Конструктор для создания экземпляра команды History.
      *
      * @param console        объект для взаимодействия с консолью
      * @param commandManager менеджер команд

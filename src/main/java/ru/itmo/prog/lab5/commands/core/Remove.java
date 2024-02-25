@@ -8,12 +8,19 @@ import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
- * Команда 'remove_by_id'. Удаляет элемент из коллекции.
+ * Команда 'remove_by_id'. Удаляет элемент из коллекции по ID.
+ * @author zevtos
  */
 public class Remove extends Command {
     private final Console console;
     private final TicketCollectionManager ticketCollectionManager;
 
+    /**
+     * Конструктор для создания экземпляра команды Remove.
+     *
+     * @param console объект для взаимодействия с консолью
+     * @param ticketCollectionManager менеджер коллекции билетов
+     */
     public Remove(Console console, TicketCollectionManager ticketCollectionManager) {
         super("remove_by_id <ID>", "удалить ticket из коллекции по ID");
         this.console = console;
@@ -22,15 +29,17 @@ public class Remove extends Command {
 
     /**
      * Выполняет команду
+     *
+     * @param arguments аргументы команды
      * @return Успешность выполнения команды.
      */
     @Override
     public boolean apply(String[] arguments) {
         try {
-            if (arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
+            if (arguments.length < 2 || arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();
 
-            var id = Integer.parseInt(arguments[1]);
+            int id = Integer.parseInt(arguments[1]);
             var productToRemove = ticketCollectionManager.byId(id);
             if (productToRemove == null) throw new NotFoundException();
 

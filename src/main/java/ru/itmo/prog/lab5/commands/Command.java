@@ -3,25 +3,37 @@ package ru.itmo.prog.lab5.commands;
 import java.util.Objects;
 
 /**
- * Абстрактная команда с именем и описанием
+ * Абстрактная команда с именем и описанием.
+ *
+ * @author zevtos
  */
 public abstract class Command implements Describable, Executable {
     private final String name;
     private final String description;
 
+    /**
+     * Конструктор для создания команды с именем и описанием.
+     *
+     * @param name        Название команды.
+     * @param description Описание команды.
+     */
     public Command(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
     /**
-     * @return Название и использование команды.
+     * Получить название команды.
+     *
+     * @return Название команды.
      */
     public String getName() {
         return name;
     }
 
     /**
+     * Получить описание команды.
+     *
      * @return Описание команды.
      */
     public String getDescription() {

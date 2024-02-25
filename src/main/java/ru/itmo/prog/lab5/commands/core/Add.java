@@ -20,7 +20,7 @@ public class Add extends Command {
     /**
      * Конструктор для создания экземпляра команды Add.
      *
-     * @param console           объект для взаимодействия с консолью
+     * @param console                 объект для взаимодействия с консолью
      * @param ticketCollectionManager менеджер коллекции
      */
     public Add(Console console, TicketCollectionManager ticketCollectionManager) {
@@ -40,7 +40,9 @@ public class Add extends Command {
         try {
             if (arguments.length > 1 && !arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             console.println("* Создание нового билета:");
-            ticketCollectionManager.add((new TicketForm(console, ticketCollectionManager)).build());
+            var ticketForm = new TicketForm(console, ticketCollectionManager);
+            var ticket = ticketForm.build();
+            ticketCollectionManager.add(ticket);
             console.println("Билет успешно добавлен!");
             return true;
 

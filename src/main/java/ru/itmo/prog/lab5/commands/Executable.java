@@ -2,13 +2,15 @@ package ru.itmo.prog.lab5.commands;
 
 /**
  * Интерфейс для всех выполняемых команд.
+ *
+ * @author zevtos
  */
 public interface Executable {
     /**
-     * Выполнить что-либо.
+     * Выполнить команду с заданными аргументами.
      *
-     * @param arguments Аргумент для выполнения
-     * @return результат выполнения
+     * @param arguments Аргументы команды.
+     * @return true, если выполнение команды завершилось успешно, иначе false.
      */
     boolean apply(String[] arguments);
 }

@@ -8,6 +8,7 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'update'. Обновляет элемент коллекции.
+ * @author zevtos
  */
 public class Update extends Command {
     private final Console console;
@@ -21,6 +22,8 @@ public class Update extends Command {
 
     /**
      * Выполняет команду
+     *
+     * @param arguments Аргументы команды.
      * @return Успешность выполнения команды.
      */
     @Override
@@ -36,8 +39,8 @@ public class Update extends Command {
             console.println("* Введите данные обновленного билета:");
             console.prompt();
 
-            var newticket = (new TicketForm(console, ticketCollectionManager)).build();
-            ticket.update(newticket);
+            var newTicket = (new TicketForm(console, ticketCollectionManager)).build();
+            ticket.update(newTicket);
 
             console.println("Билет успешно обновлен.");
             return true;
@@ -51,7 +54,7 @@ public class Update extends Command {
         } catch (NotFoundException exception) {
             console.printError("Билета с таким ID в коллекции нет!");
         } catch (InvalidScriptInputException e) {
-            e.printStackTrace();
+            console.printError("Некорректный ввод в скрипте!");
         } catch (InvalidFormException e) {
             console.printError("Поля билета не валидны! Билет не обновлен!");
         }

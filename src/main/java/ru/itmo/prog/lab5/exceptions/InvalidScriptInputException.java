@@ -1,6 +1,8 @@
 package ru.itmo.prog.lab5.exceptions;
 
 /**
- * Выполняется, если пользователь вводит некорректные данные.
+ * Выбрасывается, если пользователь вводит некорректные данные.
+ *
+ * @author zevtos
  */
 public class InvalidScriptInputException extends Exception {}

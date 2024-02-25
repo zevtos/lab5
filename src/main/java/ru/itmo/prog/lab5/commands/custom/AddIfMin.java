@@ -32,6 +32,8 @@ public class AddIfMin extends Command {
 
     /**
      * Выполняет команду
+     *
+     * @param arguments аргументы команды
      * @return Успешность выполнения команды.
      */
     @Override

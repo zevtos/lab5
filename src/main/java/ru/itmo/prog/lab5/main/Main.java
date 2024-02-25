@@ -13,17 +13,24 @@ import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.StandardConsole;
-import ru.itmo.prog.lab5.utility.runtime.InteractiveRunner;
 import ru.itmo.prog.lab5.utility.runtime.Runner;
-import ru.itmo.prog.lab5.utility.runtime.ScriptRunner;
 
 import java.util.Scanner;
 
+/**
+ * Главный класс приложения.
+ * @author zevtos
+ */
 public class Main {
     private static final int MISSING_FILE_ARGUMENT_EXIT_CODE = 1;
     private static final StandardConsole console = new StandardConsole();
-    public static void main(String[] args) {
 
+    /**
+     * Точка входа в приложение.
+     *
+     * @param args аргументы командной строки
+     */
+    public static void main(String[] args) {
         Interrogator.setUserScanner(new Scanner(System.in));
         createSignalManger();
         checkFileArgument(args);
@@ -33,25 +40,39 @@ public class Main {
             var personDumpManager = new DumpManager<Person>(args[1], console, Person.class);
             personCollectionManager = new PersonCollectionManager(personDumpManager);
         }
-        var TicketDumpManager = new DumpManager<Ticket>(args[0], console, Ticket.class);
-        var ticketCollectionManager = new TicketCollectionManager(TicketDumpManager, personCollectionManager);
+        var ticketDumpManager = new DumpManager<Ticket>(args[0], console, Ticket.class);
+        var ticketCollectionManager = new TicketCollectionManager(ticketDumpManager, personCollectionManager);
         personCollectionManager = ticketCollectionManager.getPersonManager();
 
         Ticket.updateNextId(ticketCollectionManager);
+        Person.updateNextId(personCollectionManager);
         ticketCollectionManager.validateAll(console);
         personCollectionManager.validateAll(console);
 
         var commandManager = createCommandManager(ticketCollectionManager, personCollectionManager);
 
-        InteractiveRunner interactiveRunner = new InteractiveRunner(console, commandManager, new ScriptRunner(console, commandManager));
-        interactiveRunner.run("");
+        new Runner(console, commandManager).run();
     }
+
+    /**
+     * Проверяет наличие аргумента файла в командной строке.
+     *
+     * @param args аргументы командной строки
+     */
     private static void checkFileArgument(String[] args) {
         if (args.length == 0) {
             console.println("Введите имя загружаемого файла как аргумент командной строки");
             System.exit(MISSING_FILE_ARGUMENT_EXIT_CODE);
         }
     }
+
+    /**
+     * Создает менеджер команд приложения.
+     *
+     * @param ticketCollectionManager менеджер коллекции билетов
+     * @param personCollectionManager менеджер коллекции персон
+     * @return менеджер команд
+     */
     private static CommandManager createCommandManager(TicketCollectionManager ticketCollectionManager, PersonCollectionManager personCollectionManager) {
         return new CommandManager() {{
             register("help", new Help(console, this));
@@ -75,6 +96,11 @@ public class Main {
         }};
     }
 
+    /**
+     * Создает менеджер сигналов.
+     *
+     * @return менеджер сигналов
+     */
     private static SignalManager createSignalManger() {
         String message = '\n' + "Для получения справки введите 'help', для завершения программы введите 'exit'" + '\n' + console.getPrompt();
         return new SignalManager() {{
@@ -83,5 +109,5 @@ public class Main {
             register("TSTP", message);
             register("BREAK", message);
         }};
-    } 
+    }
 }

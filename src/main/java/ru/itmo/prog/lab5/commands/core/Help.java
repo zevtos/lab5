@@ -6,6 +6,7 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'help'. Выводит справку по доступным командам.
+ * @author zevtos
  */
 public class Help extends Command {
     private final Console console;
@@ -36,6 +37,7 @@ public class Help extends Command {
             return false;
         }
 
+        console.println("Справка по командам:");
         commandManager.getCommands().values().forEach(command -> {
             console.printTable(command.getName(), command.getDescription());
         });

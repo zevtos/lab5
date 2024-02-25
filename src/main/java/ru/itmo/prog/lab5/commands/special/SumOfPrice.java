@@ -9,6 +9,7 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'sum_of_price'. Сумма цен всех билетов.
+ * @author zevtos
  */
 public class SumOfPrice extends Command {
     private final Console console;

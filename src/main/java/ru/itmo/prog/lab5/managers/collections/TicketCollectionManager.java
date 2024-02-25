@@ -11,26 +11,30 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Управляет коллекцией билетов.
+ * @author zevtos
+ */
 public class TicketCollectionManager implements CollectionManager<Ticket> {
     private int currentId = 1;
-    private LinkedList<Ticket> collection = new LinkedList<Ticket>();
+    private final LinkedList<Ticket> collection = new LinkedList<>();
     private LocalDateTime lastSaveTime;
     private final DumpManager<Ticket> dumpManager;
     private final PersonCollectionManager personCollectionManager;
 
-    public TicketCollectionManager(DumpManager<Ticket> dumpManager, PersonCollectionManager p) {
+    /**
+     * Создает менеджер коллекции билетов.
+     *
+     * @param dumpManager             менеджер для записи и чтения данных из файла
+     * @param personCollectionManager менеджер коллекции персон
+     */
+    public TicketCollectionManager(DumpManager<Ticket> dumpManager, PersonCollectionManager personCollectionManager) {
         this.lastSaveTime = null;
         this.dumpManager = dumpManager;
-        boolean flag = (p == null);
 
-        loadCollection();
-        if (flag){
-            var personDumpManager = new DumpManager<Person>("data/persons.json", new StandardConsole(), Person.class);
-            p = new PersonCollectionManager(personDumpManager);
-            p.loadCollection();
-            p.addAll(this.getAllPersons());
-        }
-        this.personCollectionManager = p;
+        this.loadCollection();
+
+        this.personCollectionManager = personCollectionManager;
     }
 
     public void validateAll(Console console) {
@@ -65,7 +69,7 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
      */
     @Override
     public Ticket byId(int id) {
-        if(collection.isEmpty()) return null;
+        if (collection.isEmpty()) return null;
         return collection.stream()
                 .filter(ticket -> ticket.getId() == id)
                 .findFirst()
@@ -189,6 +193,7 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
         return info.toString().trim();
     }
 
+    @Override
     public boolean loadCollection() {
         Collection<Ticket> loadedTickets = dumpManager.readCollection();
         try {

@@ -5,32 +5,33 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Для ввода команд и вывода результата
+ * Обеспечивает ввод команд и вывод результатов в стандартной консоли.
+ * @author zevtos
  */
 public class StandardConsole implements Console {
-    private static final String P = "$ ";
+    private static final String PROMPT = "$ ";
     private static Scanner fileScanner = null;
-    private static Scanner defScanner = new Scanner(System.in);
+    private static Scanner defaultScanner = new Scanner(System.in);
 
     /**
-     * Выводит obj.toString() в консоль
-     * @param obj Объект для печати
+     * Выводит объект в консоль.
+     * @param obj Объект для печати.
      */
     public void print(Object obj) {
         System.out.print(obj);
     }
 
     /**
-     * Выводит obj.toString() + \n в консоль
-     * @param obj Объект для печати
+     * Выводит объект в консоль с переводом строки.
+     * @param obj Объект для печати.
      */
     public void println(Object obj) {
         System.out.println(obj);
     }
 
     /**
-     * Выводит ошибка: obj.toString() в консоль
-     * @param obj Ошибка для печати
+     * Выводит ошибку в консоль.
+     * @param obj Ошибка для печати.
      */
     public void printError(Object obj){
         System.err.print("Error: " + obj + '\n');
@@ -40,16 +41,27 @@ public class StandardConsole implements Console {
         }
     }
 
+    /**
+     * Считывает строку из консоли.
+     * @return Считанная строка.
+     * @throws NoSuchElementException Если строка не может быть считана.
+     * @throws IllegalStateException Если консоль находится в неправильном состоянии.
+     */
     public String readln() throws NoSuchElementException, IllegalStateException {
-        return (fileScanner!=null?fileScanner:defScanner).nextLine();
-    }
-
-    public boolean isCanReadln() throws IllegalStateException {
-        return (fileScanner!=null?fileScanner:defScanner).hasNextLine();
+        return (fileScanner != null ? fileScanner : defaultScanner).nextLine();
     }
 
     /**
-     * Выводит 2 колонки
+     * Проверяет, можно ли считать строку из консоли.
+     * @return true, если можно считать строку, иначе false.
+     * @throws IllegalStateException Если консоль находится в неправильном состоянии.
+     */
+    public boolean isCanReadln() throws IllegalStateException {
+        return (fileScanner != null ? fileScanner : defaultScanner).hasNextLine();
+    }
+
+    /**
+     * Выводит два элемента в формате таблицы.
      * @param elementLeft Левый элемент колонки.
      * @param elementRight Правый элемент колонки.
      */
@@ -58,23 +70,31 @@ public class StandardConsole implements Console {
     }
 
     /**
-     * Выводит prompt текущей консоли
+     * Выводит приглашение для ввода команды.
      */
     public void prompt() {
-        print(P);
+        print(PROMPT);
     }
 
     /**
-     * @return prompt текущей консоли
+     * Возвращает приглашение для ввода команды.
+     * @return Приглашение для ввода команды.
      */
     public String getPrompt() {
-        return P;
+        return PROMPT;
     }
 
+    /**
+     * Выбирает сканер файла для считывания ввода.
+     * @param scanner Сканер файла.
+     */
     public void selectFileScanner(Scanner scanner) {
         this.fileScanner = scanner;
     }
 
+    /**
+     * Выбирает сканер консоли для считывания ввода.
+     */
     public void selectConsoleScanner() {
         this.fileScanner = null;
     }

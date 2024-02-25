@@ -9,6 +9,7 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'remove_head'. Выводит первый элемент коллекции и удаляет его.
+ * @author zevtos
  */
 public class RemoveHead extends Command {
     private final Console console;

@@ -8,7 +8,8 @@ import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
- * Команда 'max_by_name'. выводит элемент с максимальным name.
+ * Команда 'max_by_name'. Выводит элемент с максимальным именем.
+ * @author zevtos
  */
 public class MaxByName extends Command {
     private final Console console;

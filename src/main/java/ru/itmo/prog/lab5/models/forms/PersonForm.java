@@ -1,10 +1,8 @@
 package ru.itmo.prog.lab5.models.forms;
 
 import ru.itmo.prog.lab5.exceptions.*;
-import ru.itmo.prog.lab5.managers.collections.PersonCollectionManager;
-import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
-import ru.itmo.prog.lab5.models.Color;
-import ru.itmo.prog.lab5.models.Person;
+import ru.itmo.prog.lab5.managers.collections.*;
+import ru.itmo.prog.lab5.models.*;
 import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.Console;
 
@@ -13,18 +11,30 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 
+/**
+ * Форма для создания объекта Person.
+ */
 public class PersonForm extends Form<Person> {
     private final Console console;
-    private final TicketCollectionManager ticketCollectionManager;
     private final PersonCollectionManager personCollectionManager;
     private final float MIN_HEIGHT = 0;
 
+    /**
+     * Создает новую форму для создания объекта Person.
+     * @param console Консоль для взаимодействия с пользователем.
+     * @param ticketCollectionManager Менеджер коллекции билетов.
+     */
     public PersonForm(Console console, TicketCollectionManager ticketCollectionManager) {
         this.console = console;
-        this.ticketCollectionManager = ticketCollectionManager;
         this.personCollectionManager = ticketCollectionManager.getPersonManager();
     }
 
+    /**
+     * Строит объект Person на основе введенных данных.
+     * @return Созданный объект Person.
+     * @throws InvalidScriptInputException Если произошла ошибка при выполнении скрипта.
+     * @throws InvalidFormException Если введенные данные неверны.
+     */
     @Override
     public Person build() throws InvalidScriptInputException, InvalidFormException {
         console.println("Введите id=x, где id это passportID, чтобы использовать данные человека. " +
@@ -70,9 +80,21 @@ public class PersonForm extends Form<Person> {
         if (!person.validate()) throw new InvalidFormException();
         return person;
     }
+
+    /**
+     * Запрашивает цвет волос.
+     * @return Цвет волос.
+     * @throws InvalidScriptInputException Если произошла ошибка при выполнении скрипта.
+     */
     private Color askHairColor() throws InvalidScriptInputException {
         return new ColorForm(console).build();
     }
+
+    /**
+     * Запрашивает passportID.
+     * @return PassportID.
+     * @throws InvalidScriptInputException Если произошла ошибка при выполнении скрипта.
+     */
     private String askPassportID() throws InvalidScriptInputException {
         String passportID;
         var fileMode = Interrogator.fileMode();
@@ -99,6 +121,12 @@ public class PersonForm extends Form<Person> {
 
         return passportID;
     }
+
+    /**
+     * Запрашивает рост.
+     * @return Рост.
+     * @throws InvalidScriptInputException Если произошла ошибка при выполнении скрипта.
+     */
     private Float askHeight() throws InvalidScriptInputException {
         var fileMode = Interrogator.fileMode();
         float height;
@@ -129,6 +157,12 @@ public class PersonForm extends Form<Person> {
         }
         return height;
     }
+
+    /**
+     * Запрашивает дату рождения.
+     * @return Дата рождения.
+     * @throws InvalidScriptInputException Если произошла ошибка при выполнении скрипта.
+     */
     private LocalDateTime askBirthday() throws InvalidScriptInputException {
         LocalDateTime birthday;
         var fileMode = Interrogator.fileMode();
@@ -153,11 +187,14 @@ public class PersonForm extends Form<Person> {
                         if (birthday.isAfter(LocalDateTime.now())) throw new InvalidRangeException();
                         break;
                     } catch (DateTimeParseException e) {
-                    } catch (InvalidRangeException e) {
+                    }
+                    catch (InvalidRangeException e) {
                         console.printError("Дата рождения не может быть позже текущей");
                         continue;
                     }
-                    console.printError("Ошибка чтения даты, требуемый формат:" + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) + " или 2020-02-20): ");
+                    console.printError("Ошибка чтения даты. Некорректный формат. Требуемый формат: " +
+                            LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) +
+                            " или YYYY-MM-DD");
                 } catch (InvalidRangeException e) {
                     console.printError("Дата рождения не может быть позже текущей");
                 }

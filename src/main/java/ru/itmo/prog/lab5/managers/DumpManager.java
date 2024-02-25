@@ -9,6 +9,7 @@ import ru.itmo.prog.lab5.utility.adapters.ZonedDateAdapter;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Collection;
@@ -17,6 +18,8 @@ import java.util.NoSuchElementException;
 
 /**
  * Менеджер для работы с файлом, в который происходит сохранение и извлечение коллекции.
+ *
+ * @param <T> Тип элементов коллекции.
  * @author zevtos
  */
 public class DumpManager<T> {
@@ -35,8 +38,9 @@ public class DumpManager<T> {
     /**
      * Конструктор для создания экземпляра менеджера.
      *
-     * @param fileName имя файла
-     * @param console  объект для взаимодействия с консолью
+     * @param fileName Имя файла.
+     * @param console  Объект для взаимодействия с консолью.
+     * @param clazz    Класс элементов коллекции.
      */
     public DumpManager(String fileName, Console console, Class<T> clazz) {
         this.fileName = fileName;
@@ -49,12 +53,12 @@ public class DumpManager<T> {
     /**
      * Записывает коллекцию в файл.
      *
-     * @param collection коллекция
+     * @param collection Коллекция.
      */
     public void writeCollection(Collection<T> collection) {
-        try (PrintWriter collectionPrintWriter = new PrintWriter(fileName)) {
-            collectionPrintWriter.println(gson.toJson(collection));
-            console.println("Коллекция" + collectionName + " сохранена в файл!");
+        try (OutputStreamWriter collectionPrintWriter = new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8)) {
+            collectionPrintWriter.write(gson.toJson(collection));
+            console.println("Коллекция " + collectionName + " сохранена в файл!");
         } catch (IOException exception) {
             console.printError("Загрузочный файл не может быть открыт!");
         }
@@ -63,13 +67,12 @@ public class DumpManager<T> {
     /**
      * Считывает коллекцию из файла.
      *
-     * @return Считанная коллекция
+     * @return Считанная коллекция.
      */
     public Collection<T> readCollection() {
         if (fileName != null && !fileName.isEmpty()) {
-            try (var fileReader = new FileReader(fileName)) {
-                var collectionType = collectionTypeToken.getType();
-                var reader = new BufferedReader(fileReader);
+            try (InputStreamReader fileReader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
+                 BufferedReader reader = new BufferedReader(fileReader)) {
 
                 var jsonString = new StringBuilder();
 
@@ -86,9 +89,9 @@ public class DumpManager<T> {
                 }
 
                 LinkedList<T> collection = gson.fromJson(jsonString.toString(),
-                        collectionType);
+                        collectionTypeToken.getType());
 
-                console.println("Коллекция " + collectionName + " успешна загружена!");
+                console.println("Коллекция " + collectionName + " успешно загружена!");
                 return collection;
 
             } catch (FileNotFoundException exception) {
@@ -106,6 +109,10 @@ public class DumpManager<T> {
         }
         return new LinkedList<>();
     }
+
+    /**
+     * Очищает содержимое файла.
+     */
     public void clearFile() {
         try {
             FileWriter writer = new FileWriter(fileName);
@@ -117,6 +124,11 @@ public class DumpManager<T> {
         }
     }
 
+    /**
+     * Получает объект для взаимодействия с консолью.
+     *
+     * @return Объект для взаимодействия с консолью.
+     */
     public Console getConsole() {
         return console;
     }

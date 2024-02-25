@@ -9,15 +9,25 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Менеджер коллекции объектов типа Person.
+ * @author zevtos
+ */
 public class PersonCollectionManager implements CollectionManager<Person> {
     private final List<Person> collection = new ArrayList<>();
     private LocalDateTime lastSaveTime;
     private final DumpManager<Person> dumpManager;
 
+    /**
+     * Конструктор для создания экземпляра менеджера коллекции объектов типа Person.
+     *
+     * @param dumpManager менеджер для записи и чтения коллекции из файла
+     */
     public PersonCollectionManager(DumpManager<Person> dumpManager) {
         this.lastSaveTime = null;
         this.dumpManager = dumpManager;
     }
+
     @Override
     public void validateAll(Console console) {
         AtomicBoolean flag = new AtomicBoolean(true);
@@ -28,7 +38,7 @@ public class PersonCollectionManager implements CollectionManager<Person> {
             }
         });
         if (flag.get()) {
-            console.println("! Загруженные объекты person валидны.");
+            console.println("! Загруженные объекты Person валидны.");
         }
     }
 
@@ -45,6 +55,12 @@ public class PersonCollectionManager implements CollectionManager<Person> {
                 .orElse(null);
     }
 
+    /**
+     * Получает объект типа Person по его паспортному идентификатору.
+     *
+     * @param id паспортный идентификатор объекта
+     * @return объект типа Person с указанным паспортным идентификатором или null, если объект не найден
+     */
     public Person byId(String id) {
         return collection.stream()
                 .filter(person -> Objects.equals(person.getPassportID(), id))
@@ -57,6 +73,12 @@ public class PersonCollectionManager implements CollectionManager<Person> {
         return collection.stream().anyMatch(p -> p.getPassportID().equals(person.getPassportID()));
     }
 
+    /**
+     * Проверяет, содержит ли коллекция объект типа Person с указанным паспортным идентификатором.
+     *
+     * @param id паспортный идентификатор для проверки
+     * @return true, если коллекция содержит объект с указанным паспортным идентификатором, иначе false
+     */
     public boolean contains(String id) {
         return collection.stream().anyMatch(p -> p.getPassportID().equals(id));
     }
@@ -100,10 +122,14 @@ public class PersonCollectionManager implements CollectionManager<Person> {
         return collection.remove(person);
     }
 
+    /**
+     * Фиксирует изменения коллекции
+     */
     @Override
     public void update() {
-        // Не нужно делать сортировку для коллекции Person
+        Collections.sort(collection);
     }
+
     @Override
     public boolean loadCollection() {
         Collection<Person> loadedPersons = dumpManager.readCollection();
@@ -124,7 +150,6 @@ public class PersonCollectionManager implements CollectionManager<Person> {
         }
         return false;
     }
-
 
     @Override
     public void saveCollection() {
@@ -147,31 +172,20 @@ public class PersonCollectionManager implements CollectionManager<Person> {
         return collection.isEmpty() ? null : collection.get(0);
     }
 
-    public boolean init(TicketCollectionManager manager) {
-        // Получаем список всех Person из менеджера коллекции
-        Collection<Person> persons = manager.getAllPersons();
-        Set<String> passportIds = new HashSet<>();
-        // Проверяем каждого Person на уникальность PassportID
-        try {
-            for (Person person : persons) {
-                if (passportIds.contains(person.getPassportID())) {
-                    // Если уже есть Person с таким PassportID, выбрасываем исключение
-                    throw new DuplicateException(person.getPassportID());
-                }
-                // Добавляем PassportID в множество для проверки уникальности
-                passportIds.add(person.getPassportID());
-            }
-            // Если все PassportID уникальны, добавляем Person в коллекцию
-            collection.addAll(persons);
-            return true;
-        } catch (DuplicateException e) {
-            dumpManager.getConsole().printError("Два Person с одинаковым PassportID: " + e.getDuplicateObject());
-        }
-        // Возвращаем true, если добавление прошло успешно
-        return false;
-
+    /**
+     * Возвращает последнее время сохранения коллекции.
+     *
+     * @return последнее время сохранения
+     */
+    public LocalDateTime getLastSaveTime() {
+        return lastSaveTime;
     }
 
+    /**
+     * Добавляет все объекты из указанной коллекции в текущую коллекцию, исключая дубликаты по паспортным идентификаторам.
+     *
+     * @param persons коллекция объектов типа Person для добавления
+     */
     public void addAll(Collection<Person> persons) {
         for (Person person : persons) {
             if (!contains(person.getPassportID())) {
@@ -179,11 +193,4 @@ public class PersonCollectionManager implements CollectionManager<Person> {
             }
         }
     }
-    /**
-     * @return Последнее время сохранения.
-     */
-    public LocalDateTime getLastSaveTime() {
-        return lastSaveTime;
-    }
-
 }

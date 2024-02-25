@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * Управляет командами.
+ *
  * @author zevtos
  */
 public class CommandManager {
@@ -16,15 +17,18 @@ public class CommandManager {
     private final List<String> commandHistory = new ArrayList<>();
 
     /**
-     * Добавляет команду.
+     * Регистрирует команду.
+     *
      * @param commandName Название команды.
-     * @param command Команда.
+     * @param command     Команда.
      */
     public void register(String commandName, Command command) {
         commands.put(commandName, command);
     }
 
     /**
+     * Получает словарь команд.
+     *
      * @return Словарь команд.
      */
     public Map<String, Command> getCommands() {
@@ -32,6 +36,8 @@ public class CommandManager {
     }
 
     /**
+     * Получает историю команд.
+     *
      * @return История команд.
      */
     public List<String> getCommandHistory() {
@@ -40,6 +46,7 @@ public class CommandManager {
 
     /**
      * Добавляет команду в историю.
+     *
      * @param command Команда.
      */
     public void addToHistory(String command) {

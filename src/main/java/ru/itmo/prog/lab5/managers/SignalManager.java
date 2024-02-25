@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Управляет командами.
- *
+ * Управляет сигналами.
  * @author zevtos
  */
 public class SignalManager {
@@ -17,38 +16,42 @@ public class SignalManager {
     private final List<String> signalHistory = new ArrayList<>();
 
     /**
-     * Добавляет команду.
+     * Регистрирует сигнал.
      *
      * @param signalName Название сигнала.
-     * @param message    сообщение при вызове сигнала.
+     * @param message    Сообщение, выводимое при вызове сигнала.
      */
     public void register(String signalName, String message) {
         try {
             signals.put(signalName, new Signal(signalName));
-            Signal.handle(signals.get(signalName),  // SIG signalName
-                    signal -> System.out.print(message));
+            Signal.handle(signals.get(signalName), signal -> System.out.print(message));
         } catch (IllegalArgumentException ignored) {
+            // Игнорируем исключение, если сигнал с таким названием уже существует
         }
     }
 
     /**
-     * @return Словарь команд.
+     * Получает словарь сигналов.
+     *
+     * @return Словарь сигналов.
      */
     public Map<String, Signal> getSignals() {
         return signals;
     }
 
     /**
-     * @return История команд.
+     * Получает историю сигналов.
+     *
+     * @return История сигналов.
      */
-    public List<String> getCommandHistory() {
+    public List<String> getSignalHistory() {
         return signalHistory;
     }
 
     /**
-     * Добавляет команду в историю.
+     * Добавляет сигнал в историю.
      *
-     * @param signal Команда.
+     * @param signal Сигнал.
      */
     public void addToHistory(String signal) {
         signalHistory.add(signal);

@@ -1,37 +1,42 @@
 package ru.itmo.prog.lab5.models.forms;
 
-import ru.itmo.prog.lab5.exceptions.EmptyValueException;
-import ru.itmo.prog.lab5.exceptions.InvalidFormException;
-import ru.itmo.prog.lab5.exceptions.InvalidRangeException;
-import ru.itmo.prog.lab5.exceptions.InvalidScriptInputException;
-import ru.itmo.prog.lab5.managers.collections.PersonCollectionManager;
-import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
-import ru.itmo.prog.lab5.models.Coordinates;
-import ru.itmo.prog.lab5.models.Person;
-import ru.itmo.prog.lab5.models.Ticket;
-import ru.itmo.prog.lab5.models.TicketType;
+import ru.itmo.prog.lab5.exceptions.*;
+import ru.itmo.prog.lab5.managers.collections.*;
+import ru.itmo.prog.lab5.models.*;
 import ru.itmo.prog.lab5.utility.Interrogator;
 import ru.itmo.prog.lab5.utility.console.Console;
 
 import java.util.NoSuchElementException;
 
 /**
- * Форма билета.
+ * Форма для создания билета.
+ * @author zevtos
  */
 public class TicketForm extends Form<Ticket> {
     private final Console console;
     private final TicketCollectionManager ticketCollectionManager;
-    private final PersonCollectionManager personCollectionManager;
 
+    /**
+     * Создает новую форму для создания билета.
+     *
+     * @param console                 Консоль для взаимодействия с пользователем.
+     * @param ticketCollectionManager Менеджер коллекции билетов.
+     */
     public TicketForm(Console console, TicketCollectionManager ticketCollectionManager) {
         this.console = console;
         this.ticketCollectionManager = ticketCollectionManager;
-        this.personCollectionManager = ticketCollectionManager.getPersonManager();
     }
 
+    /**
+     * Строит объект билета на основе введенных данных.
+     *
+     * @return Созданный билет.
+     * @throws InvalidScriptInputException Если произошла ошибка при выполнении скрипта.
+     * @throws InvalidFormException        Если введенные данные неверны.
+     */
     @Override
     public Ticket build() throws InvalidScriptInputException, InvalidFormException {
-        var Ticket = new Ticket(
+        var ticket = new Ticket(
                 askName(),
                 askCoordinates(),
                 askPrice(),
@@ -40,24 +45,31 @@ public class TicketForm extends Form<Ticket> {
                 askTicketType(),
                 askPerson()
         );
-        if (!Ticket.validate()) throw new InvalidFormException();
-        return Ticket;
+        if (!ticket.validate()) throw new InvalidFormException();
+        return ticket;
     }
+
+    /**
+     * Запрашивает скидку на билет.
+     *
+     * @return Скидка на билет.
+     * @throws InvalidScriptInputException Если произошла ошибка при выполнении скрипта.
+     */
     public Long askDiscount() throws InvalidScriptInputException {
         var fileMode = Interrogator.fileMode();
         Long discount;
         while (true) {
             try {
-                console.println("Введите скидку билета:");
+                console.println("Введите скидку на билет:");
                 console.prompt();
 
-                var strPrice = Interrogator.getUserScanner().nextLine().trim();
-                if (fileMode) console.println(strPrice);
-                if (strPrice.isEmpty()) {
+                var strDiscount = Interrogator.getUserScanner().nextLine().trim();
+                if (fileMode) console.println(strDiscount);
+                if (strDiscount.isEmpty()) {
                     discount = null;
                     break;
                 }
-                discount = Long.parseLong(strPrice);
+                discount = Long.parseLong(strDiscount);
                 if (discount <= 0 || discount > 100) throw new InvalidRangeException();
                 break;
             } catch (NoSuchElementException exception) {
@@ -67,7 +79,7 @@ public class TicketForm extends Form<Ticket> {
                 console.printError("Процент скидки должен быть в диапазоне от 0 до 100!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (NumberFormatException exception) {
-                console.printError("Скидка должна быть представлена целым числом 0 < discount <= 100!");
+                console.printError("Скидка должна быть представлена целым числом от 0 до 100!");
                 if (fileMode) throw new InvalidScriptInputException();
             } catch (NullPointerException | IllegalStateException exception) {
                 console.printError("Непредвиденная ошибка!");
@@ -76,6 +88,7 @@ public class TicketForm extends Form<Ticket> {
         }
         return discount;
     }
+
     private String askName() throws InvalidScriptInputException {
         String name;
         var fileMode = Interrogator.fileMode();

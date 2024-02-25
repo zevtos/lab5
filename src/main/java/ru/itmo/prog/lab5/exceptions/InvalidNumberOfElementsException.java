@@ -1,6 +1,8 @@
 package ru.itmo.prog.lab5.exceptions;
 
 /**
- * Исключения для неправильного количества элементов.
+ * Исключение для неправильного количества элементов.
+ *
+ * @author zevtos
  */
 public class InvalidNumberOfElementsException extends Exception {}

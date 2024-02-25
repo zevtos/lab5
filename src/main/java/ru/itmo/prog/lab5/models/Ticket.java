@@ -7,6 +7,10 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+/**
+ * Класс, представляющий объект билета.
+ * @author zevtos
+ */
 public class Ticket extends Element {
     private static int nextId;
     private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
@@ -55,7 +59,10 @@ public class Ticket extends Element {
                 "\n}";
     }
 
-
+    /**
+     * Проверяет, является ли билет валидным.
+     * @return true, если билет валиден, иначе false.
+     */
     public boolean validate() {
         if (id <= 0) return false;
         if (name == null || name.isEmpty()) return false;

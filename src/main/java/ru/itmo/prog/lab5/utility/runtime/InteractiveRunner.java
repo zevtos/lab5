@@ -7,19 +7,33 @@ import ru.itmo.prog.lab5.utility.console.Console;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Запускает выполнение интерактивного режима.
+ * @author zevtos
+ */
 public class InteractiveRunner implements ModeRunner {
 
     private final Console console;
     private final CommandManager commandManager;
-
     private final ScriptRunner scriptRunner;
 
+    /**
+     * Конструктор для InteractiveRunner.
+     * @param console Консоль.
+     * @param commandManager Менеджер команд.
+     * @param scriptRunner Запускает выполнение скриптов.
+     */
     public InteractiveRunner(Console console, CommandManager commandManager, ScriptRunner scriptRunner) {
         this.console = console;
         this.commandManager = commandManager;
         this.scriptRunner = scriptRunner;
     }
 
+    /**
+     * Запускает выполнение интерактивного режима.
+     * @param argument Не используется в интерактивном режиме.
+     * @return Код завершения выполнения интерактивного режима.
+     */
     @Override
     public Runner.ExitCode run(String argument) {
         String[] userCommand;

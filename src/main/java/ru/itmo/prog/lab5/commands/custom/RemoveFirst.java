@@ -8,6 +8,7 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'remove_first'. Удаляет первый элемент из коллекции.
+ * @author zevtos
  */
 public class RemoveFirst extends Command {
     private final Console console;

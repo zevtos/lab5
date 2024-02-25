@@ -1,18 +1,22 @@
 package ru.itmo.prog.lab5.commands;
 
 /**
- * Что-то, что можно назвать и описать.
+ * Интерфейс для объектов, которые можно назвать и описать.
+ *
+ * @author zevtos
  */
 public interface Describable {
     /**
      * Получить имя.
-     * @return имя
+     *
+     * @return Имя объекта.
      */
     String getName();
 
     /**
      * Получить описание.
-     * @return описание
+     *
+     * @return Описание объекта.
      */
     String getDescription();
 }

@@ -6,6 +6,7 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'clear'. Очищает коллекцию.
+ * @author zevtos
  */
 public class Clear extends Command {
     private final Console console;

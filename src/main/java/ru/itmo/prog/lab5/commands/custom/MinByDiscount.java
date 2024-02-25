@@ -9,6 +9,7 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 /**
  * Команда 'min_by_discount'. выводит элемент с минимальным discount.
+ * @author zevtos
  */
 public class MinByDiscount extends Command {
     private final Console console;

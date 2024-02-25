@@ -12,22 +12,43 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Запускает выполнение скрипта команд.
+ * @author zevtos
+ */
 public class ScriptRunner implements ModeRunner {
 
     private final Console console;
     private final CommandManager commandManager;
     private final List<String> scriptStack = new ArrayList<>();
 
+    /**
+     * Конструктор для ScriptRunner.
+     * @param console Консоль.
+     * @param commandManager Менеджер команд.
+     * @param scriptStack Стек скриптов.
+     */
     public ScriptRunner(Console console, CommandManager commandManager, List<String> scriptStack) {
         this.console = console;
         this.commandManager = commandManager;
         this.scriptStack.addAll(scriptStack);
     }
+
+    /**
+     * Конструктор для ScriptRunner.
+     * @param console Консоль.
+     * @param commandManager Менеджер команд.
+     */
     public ScriptRunner(Console console, CommandManager commandManager) {
         this.console = console;
         this.commandManager = commandManager;
     }
 
+    /**
+     * Запускает выполнение скрипта.
+     * @param argument Аргумент - путь к файлу скрипта.
+     * @return Код завершения выполнения скрипта.
+     */
     @Override
     public Runner.ExitCode run(String argument) {
         scriptStack.add(argument);
@@ -37,7 +58,7 @@ public class ScriptRunner implements ModeRunner {
 
         String[] userCommand;
         try (Scanner scriptScanner = new Scanner(new File(argument))) {
-            if (!scriptScanner.hasNext()) throw new java.util.NoSuchElementException();
+            if (!scriptScanner.hasNext()) throw new NoSuchElementException();
             Scanner tmpScanner = Interrogator.getUserScanner();
             Interrogator.setUserScanner(scriptScanner);
             Interrogator.setFileMode();
@@ -58,7 +79,7 @@ public class ScriptRunner implements ModeRunner {
             Interrogator.setUserScanner(tmpScanner);
             Interrogator.setUserMode();
 
-        } catch (java.util.NoSuchElementException | IllegalStateException exception) {
+        } catch (NoSuchElementException | IllegalStateException exception) {
             console.printError("Ошибка ввода.");
             try {
                 Interrogator.getUserScanner().hasNext();
@@ -89,7 +110,7 @@ public class ScriptRunner implements ModeRunner {
         if (userCommand[0].isEmpty()) return Runner.ExitCode.OK;
         var command = commandManager.getCommands().get(userCommand[0]);
 
-        if (command == null) throw new java.util.NoSuchElementException();
+        if (command == null) throw new NoSuchElementException();
 
         switch (userCommand[0]) {
             case "exit" -> {

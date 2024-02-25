@@ -40,10 +40,12 @@ public class AddPerson extends Command {
         try {
             if (arguments.length > 1 && !arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             console.println("* Создание нового пользователя:");
-            if(ticketCollectionManager.getPersonManager().add((new PersonForm(console, ticketCollectionManager)).build())) {
+            var personForm = new PersonForm(console, ticketCollectionManager);
+            var person = personForm.build();
+            if(ticketCollectionManager.getPersonManager().add(person)) {
                 console.println("Пользователь успешно добавлен!");
                 return true;
-            }else{
+            } else {
                 console.println("Пользователь с таким PassportID уже существует!");
                 return false;
             }
