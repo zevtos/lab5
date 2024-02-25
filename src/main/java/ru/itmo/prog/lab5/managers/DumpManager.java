@@ -23,7 +23,7 @@ import java.util.NoSuchElementException;
  * @author zevtos
  */
 public class DumpManager<T> {
-    private final TypeToken<LinkedList<T>> collectionTypeToken;
+    private final java.lang.reflect.Type collectionType;
     private final String collectionName;
     private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
@@ -45,7 +45,7 @@ public class DumpManager<T> {
     public DumpManager(String fileName, Console console, Class<T> clazz) {
         this.fileName = fileName;
         this.console = console;
-        collectionTypeToken = (TypeToken<LinkedList<T>>) TypeToken.getParameterized(LinkedList.class, clazz);
+        collectionType = TypeToken.getParameterized(LinkedList.class, clazz).getType();
         String[] parts = clazz.getName().split("\\.");
         collectionName = parts[parts.length - 1];
     }
@@ -89,7 +89,7 @@ public class DumpManager<T> {
                 }
 
                 LinkedList<T> collection = gson.fromJson(jsonString.toString(),
-                        collectionTypeToken.getType());
+                        collectionType);
 
                 console.println("Коллекция " + collectionName + " успешно загружена!");
                 return collection;

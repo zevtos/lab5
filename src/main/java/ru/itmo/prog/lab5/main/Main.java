@@ -104,10 +104,10 @@ public class Main {
     private static SignalManager createSignalManger() {
         String message = '\n' + "Для получения справки введите 'help', для завершения программы введите 'exit'" + '\n' + console.getPrompt();
         return new SignalManager() {{
-            register("INT", message);
-            register("TERM", message);
-            register("TSTP", message);
-            register("BREAK", message);
+            register("INT", message, console);
+            register("TERM", message, console);
+            register("TSTP", message, console);
+            register("BREAK", message, console);
         }};
     }
 }

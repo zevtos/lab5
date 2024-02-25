@@ -31,9 +31,15 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
     public TicketCollectionManager(DumpManager<Ticket> dumpManager, PersonCollectionManager personCollectionManager) {
         this.lastSaveTime = null;
         this.dumpManager = dumpManager;
+        boolean flag = (personCollectionManager == null);
 
         this.loadCollection();
-
+        if (flag) {
+            var personDumpManager = new DumpManager<Person>("data/persons.json", new StandardConsole(), Person.class);
+            personCollectionManager = new PersonCollectionManager(personDumpManager);
+            personCollectionManager.loadCollection();
+            personCollectionManager.addAll(this.getAllPersons());
+        }
         this.personCollectionManager = personCollectionManager;
     }
 

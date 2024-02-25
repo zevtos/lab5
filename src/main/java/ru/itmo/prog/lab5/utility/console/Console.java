@@ -65,4 +65,5 @@ public interface Console {
      * Выбирает сканер консоли для считывания ввода.
      */
     void selectConsoleScanner();
+
 }

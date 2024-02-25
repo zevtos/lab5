@@ -1,5 +1,6 @@
 package ru.itmo.prog.lab5.utility.console;
 
+import java.nio.charset.StandardCharsets;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
