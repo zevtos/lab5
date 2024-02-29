@@ -186,7 +186,7 @@ public class PersonForm extends Form<Person> {
                         birthday = LocalDateTime.parse(line + "T00:00:00.0000", DateTimeFormatter.ISO_DATE_TIME);
                         if (birthday.isAfter(LocalDateTime.now())) throw new InvalidRangeException();
                         break;
-                    } catch (DateTimeParseException e) {
+                    } catch (DateTimeParseException ignored1) {
                     }
                     catch (InvalidRangeException e) {
                         console.printError("Дата рождения не может быть позже текущей");

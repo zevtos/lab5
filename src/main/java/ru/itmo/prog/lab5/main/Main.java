@@ -98,17 +98,15 @@ public class Main {
 
     /**
      * Создает менеджер сигналов.
-     *
-     * @return менеджер сигналов
      */
-    private static SignalManager createSignalManger() {
+    private static void createSignalManger() {
         String message = '\n' + "Для получения справки введите 'help', для завершения программы введите 'exit'" + '\n' + console.getPrompt();
-        return new SignalManager() {{
-            register("INT", message, console);
-            register("TERM", message, console);
-            register("TSTP", message, console);
-            register("BREAK", message, console);
-            register("EOF", message, console);
+        new SignalManager() {{
+            register("INT", message);
+            register("TERM", message);
+            register("TSTP", message);
+            register("BREAK", message);
+            register("EOF", message);
         }};
     }
 }

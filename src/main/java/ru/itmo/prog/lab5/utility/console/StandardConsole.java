@@ -1,6 +1,5 @@
 package ru.itmo.prog.lab5.utility.console;
 
-import java.nio.charset.StandardCharsets;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -12,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class StandardConsole implements Console {
     private static final String PROMPT = "$ ";
     private static Scanner fileScanner = null;
-    private static Scanner defaultScanner = new Scanner(System.in);
+    private static final Scanner defaultScanner = new Scanner(System.in);
 
     /**
      * Выводит объект в консоль.
@@ -38,7 +37,7 @@ public class StandardConsole implements Console {
         System.err.print("Error: " + obj + '\n');
         try {
             TimeUnit.MILLISECONDS.sleep(20); // Пауза
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
     }
 
@@ -90,13 +89,13 @@ public class StandardConsole implements Console {
      * @param scanner Сканер файла.
      */
     public void selectFileScanner(Scanner scanner) {
-        this.fileScanner = scanner;
+        fileScanner = scanner;
     }
 
     /**
      * Выбирает сканер консоли для считывания ввода.
      */
     public void selectConsoleScanner() {
-        this.fileScanner = null;
+        fileScanner = null;
     }
 }

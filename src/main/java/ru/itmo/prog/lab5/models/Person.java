@@ -1,7 +1,6 @@
 package ru.itmo.prog.lab5.models;
 
 import ru.itmo.prog.lab5.managers.collections.PersonCollectionManager;
-import ru.itmo.prog.lab5.managers.collections.TicketCollectionManager;
 import ru.itmo.prog.lab5.utility.base.Element;
 
 import java.time.LocalDateTime;
@@ -13,7 +12,7 @@ import java.util.Objects;
  */
 public class Person extends Element {
     private static int nextId;
-    private Integer id;
+    private final Integer id;
     private LocalDateTime birthday; //Поле может быть null
     private Float height; //Поле может быть null, Значение поля должно быть больше 0
     private String passportID; //Поле не может быть null
