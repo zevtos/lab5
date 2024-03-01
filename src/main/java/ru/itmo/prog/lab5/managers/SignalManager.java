@@ -6,6 +6,7 @@ import java.util.*;
 
 /**
  * Управляет сигналами.
+ *
  * @author zevtos
  */
 public class SignalManager {
@@ -21,10 +22,11 @@ public class SignalManager {
     public void register(String signalName, String message) {
         try {
             signals.put(signalName, new Signal(signalName));
-            Signal.handle(signals.get(signalName), signal -> {System.out.print(message);
-                });
+            Signal.handle(signals.get(signalName), signal -> {
+                System.out.print(message);
+            });
         } catch (IllegalArgumentException ignored) {
-            // Игнорируем исключение, если сигнал с таким названием уже существует
+            // Игнорируем исключение, если сигнал с таким названием уже существует или такого сигнала не существует
         }
     }
 

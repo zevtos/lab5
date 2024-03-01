@@ -7,7 +7,7 @@
     <list default="true" id="3770c456-4c23-4e57-a719-d29cf427eb2c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/report.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/report.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/~$report.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/managers/SignalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/itmo/prog/lab5/managers/SignalManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +76,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/zevtos/itmo/labs/md/prog/lab5/src/main/java/org/example/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;proofread&quot;,
@@ -136,6 +136,8 @@
       <workItem from="1709198054563" duration="1135000" />
       <workItem from="1709208086900" duration="171000" />
       <workItem from="1709212789913" duration="79000" />
+      <workItem from="1709213201061" duration="2266000" />
+      <workItem from="1709277638480" duration="1115000" />
     </task>
     <servers />
   </component>
