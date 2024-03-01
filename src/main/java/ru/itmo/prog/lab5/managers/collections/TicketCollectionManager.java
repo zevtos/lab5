@@ -234,6 +234,9 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
 
         // Проходим по каждому билету и добавляем его персону в список всех персон
         for (Ticket ticket : tickets) {
+            if(ticket == null){
+                continue;
+            }
             Person person = ticket.getPerson();
             if (person != null) {
                 allPersons.add(person);

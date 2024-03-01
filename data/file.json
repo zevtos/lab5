@@ -38,25 +38,5 @@
       "passportID": "412991",
       "hairColor": "YELLOW"
     }
-  },
-  {
-    "id": 3,
-    "name": "avtobus",
-    "coordinates": {
-      "x": 8.0,
-      "y": -10.0
-    },
-    "creationDate": "2024-02-16T14:01:31.8858242+03:00[Europe/Moscow]",
-    "price": 2.3423432424242422E31,
-    "discount": 2,
-    "comment": "`$sql$`\"dsdsa\"",
-    "type": null,
-    "person": {
-      "id": 3,
-      "birthday": "2029-02-28",
-      "height": 1.7832113E11,
-      "passportID": "312312312]",
-      "hairColor": "GREEN"
-    }
   }
 ]
