@@ -81,15 +81,15 @@ public class InteractiveRunner implements ModeRunner {
 
         switch (userCommand[0]) {
             case "exit" -> {
-                if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;
+                if (!command.execute(userCommand)) return Runner.ExitCode.ERROR;
                 else return Runner.ExitCode.EXIT;
             }
             case "execute_script" -> {
-                if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;
+                if (!command.execute(userCommand)) return Runner.ExitCode.ERROR;
                 else return scriptRunner.run(userCommand[1]); // Interactive mode doesn't support script execution.
             }
             default -> {
-                if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;
+                if (!command.execute(userCommand)) return Runner.ExitCode.ERROR;
             }
         }
 

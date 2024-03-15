@@ -4,6 +4,7 @@ import ru.itmo.prog.lab5.exceptions.DuplicateException;
 import ru.itmo.prog.lab5.managers.DumpManager;
 import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.utility.console.Console;
+import ru.itmo.prog.lab5.utility.console.StandartConsole;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -18,6 +19,11 @@ public class PersonCollectionManager implements CollectionManager<Person> {
     private LocalDateTime lastSaveTime;
     private final DumpManager<Person> dumpManager;
 
+    public PersonCollectionManager(Console console) {
+        this.lastSaveTime = null;
+        this.dumpManager = new DumpManager<Person>("data/persons.json", new StandartConsole(), Person.class);
+        this.loadCollection();
+    }
     /**
      * Конструктор для создания экземпляра менеджера коллекции объектов типа Person.
      *
@@ -26,6 +32,12 @@ public class PersonCollectionManager implements CollectionManager<Person> {
     public PersonCollectionManager(DumpManager<Person> dumpManager) {
         this.lastSaveTime = null;
         this.dumpManager = dumpManager;
+        this.loadCollection();
+    }
+
+    public PersonCollectionManager(Console console, String arg) {
+        this.lastSaveTime = null;
+        this.dumpManager = new DumpManager<Person>(arg, console, Person.class);
     }
 
     @Override
@@ -143,6 +155,7 @@ public class PersonCollectionManager implements CollectionManager<Person> {
                 }
                 collection.add(person);
             }
+            validateAll(dumpManager.getConsole());
             return true;
         } catch (DuplicateException e) {
             dumpManager.getConsole().printError("Ошибка загрузки коллекции: обнаружены дубликаты Person по полю passportID: " + e.getDuplicateObject() + '\n' + "Коллекция Person будет инициализирована с помощью Ticket");

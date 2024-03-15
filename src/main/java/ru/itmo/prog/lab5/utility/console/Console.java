@@ -20,18 +20,6 @@ public interface Console {
     void println(Object obj);
 
     /**
-     * Считывает строку из консоли.
-     * @return Считанная строка.
-     */
-    String readln();
-
-    /**
-     * Проверяет, можно ли считать строку из консоли.
-     * @return true, если можно считать строку, иначе false.
-     */
-    boolean isCanReadln();
-
-    /**
      * Выводит ошибку в консоль.
      * @param obj Ошибка для печати.
      */
@@ -55,15 +43,5 @@ public interface Console {
      */
     String getPrompt();
 
-    /**
-     * Выбирает сканер файла для считывания ввода.
-     * @param scanner Сканер файла.
-     */
-    void selectFileScanner(Scanner scanner);
-
-    /**
-     * Выбирает сканер консоли для считывания ввода.
-     */
-    void selectConsoleScanner();
 
 }

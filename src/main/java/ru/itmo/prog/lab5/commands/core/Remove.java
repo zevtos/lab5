@@ -34,7 +34,7 @@ public class Remove extends Command {
      * @return Успешность выполнения команды.
      */
     @Override
-    public boolean apply(String[] arguments) {
+    public boolean execute(String[] arguments) {
         try {
             if (arguments.length < 2 || arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();

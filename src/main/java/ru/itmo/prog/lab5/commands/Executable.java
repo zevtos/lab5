@@ -12,5 +12,5 @@ public interface Executable {
      * @param arguments Аргументы команды.
      * @return true, если выполнение команды завершилось успешно, иначе false.
      */
-    boolean apply(String[] arguments);
+    boolean execute(String[] arguments);
 }

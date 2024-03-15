@@ -12,20 +12,17 @@ import ru.itmo.prog.lab5.utility.console.Console;
 public class Save extends Command {
     private final Console console;
     private final TicketCollectionManager ticketCollectionManager;
-    private final PersonCollectionManager personCollectionManager;
 
     /**
      * Конструктор для создания экземпляра команды Save.
      *
      * @param console объект для взаимодействия с консолью
      * @param ticketCollectionManager менеджер коллекции билетов
-     * @param personCollectionManager менеджер коллекции людей
      */
-    public Save(Console console, TicketCollectionManager ticketCollectionManager, PersonCollectionManager personCollectionManager) {
+    public Save(Console console, TicketCollectionManager ticketCollectionManager) {
         super("save", "сохранить коллекции в файлы");
         this.console = console;
         this.ticketCollectionManager = ticketCollectionManager;
-        this.personCollectionManager = personCollectionManager;
     }
 
     /**
@@ -35,14 +32,14 @@ public class Save extends Command {
      * @return Успешность выполнения команды.
      */
     @Override
-    public boolean apply(String[] arguments) {
+    public boolean execute(String[] arguments) {
         if (!arguments[1].isEmpty()) {
             console.println("Использование: '" + getName() + "'");
             return false;
         }
 
         ticketCollectionManager.saveCollection();
-        personCollectionManager.saveCollection();
+        ticketCollectionManager.getPersonManager().saveCollection();
         return true;
     }
 }

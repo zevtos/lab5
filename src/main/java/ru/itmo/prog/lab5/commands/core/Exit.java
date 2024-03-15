@@ -27,7 +27,7 @@ public class Exit extends Command {
      * @return Успешность выполнения команды
      */
     @Override
-    public boolean apply(String[] arguments) {
+    public boolean execute(String[] arguments) {
         if (arguments.length > 1 && !arguments[1].isEmpty()) {
             console.println("Использование: '" + getName() + "'");
             return false;

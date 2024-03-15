@@ -7,10 +7,7 @@ import ru.itmo.prog.lab5.utility.console.Console;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Запускает выполнение скрипта команд.
@@ -20,19 +17,7 @@ public class ScriptRunner implements ModeRunner {
 
     private final Console console;
     private final CommandManager commandManager;
-    private final List<String> scriptStack = new ArrayList<>();
-
-    /**
-     * Конструктор для ScriptRunner.
-     * @param console Консоль.
-     * @param commandManager Менеджер команд.
-     * @param scriptStack Стек скриптов.
-     */
-    public ScriptRunner(Console console, CommandManager commandManager, List<String> scriptStack) {
-        this.console = console;
-        this.commandManager = commandManager;
-        this.scriptStack.addAll(scriptStack);
-    }
+    private final Set<String> scriptSet = new HashSet<>();
 
     /**
      * Конструктор для ScriptRunner.
@@ -51,7 +36,7 @@ public class ScriptRunner implements ModeRunner {
      */
     @Override
     public Runner.ExitCode run(String argument) {
-        scriptStack.add(argument);
+        scriptSet.add(argument);
         if (!new File(argument).exists()) {
             argument = "../" + argument;
         }
@@ -68,9 +53,7 @@ public class ScriptRunner implements ModeRunner {
                 userCommand[1] = userCommand[1].trim();
                 console.println(console.getPrompt() + String.join(" ", userCommand));
                 if (userCommand[0].equals("execute_script")) {
-                    for (String script : scriptStack) {
-                        if (userCommand[1].equals(script)) throw new ScriptRecursionException();
-                    }
+                    if (scriptSet.contains(userCommand[1])) throw new ScriptRecursionException();
                 }
                 Runner.ExitCode commandStatus = executeCommand(userCommand);
                 if (commandStatus != Runner.ExitCode.OK) return commandStatus;
@@ -101,7 +84,7 @@ public class ScriptRunner implements ModeRunner {
             console.printError("Обнаружена рекурсия");
             return Runner.ExitCode.ERROR;
         } finally {
-            scriptStack.remove(scriptStack.size() - 1);
+            scriptSet.remove(argument);
         }
         return Runner.ExitCode.OK;
     }
@@ -114,15 +97,15 @@ public class ScriptRunner implements ModeRunner {
 
         switch (userCommand[0]) {
             case "exit" -> {
-                if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;
+                if (!command.execute(userCommand)) return Runner.ExitCode.ERROR;
                 else return Runner.ExitCode.EXIT;
             }
             case "execute_script" -> {
-                if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;
+                if (!command.execute(userCommand)) return Runner.ExitCode.ERROR;
                 else return this.run(userCommand[1]); // Interactive mode doesn't support script execution.
             }
             default -> {
-                if (!command.apply(userCommand)) return Runner.ExitCode.ERROR;
+                if (!command.execute(userCommand)) return Runner.ExitCode.ERROR;
             }
         }
         return Runner.ExitCode.OK;

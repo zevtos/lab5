@@ -26,7 +26,7 @@ public class SumOfPrice extends Command {
      * @return Успешность выполнения команды.
      */
     @Override
-    public boolean apply(String[] arguments) {
+    public boolean execute(String[] arguments) {
         try {
             if (!arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
 

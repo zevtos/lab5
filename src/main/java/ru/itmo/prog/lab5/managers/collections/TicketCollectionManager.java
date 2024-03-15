@@ -5,7 +5,7 @@ import ru.itmo.prog.lab5.managers.DumpManager;
 import ru.itmo.prog.lab5.models.Person;
 import ru.itmo.prog.lab5.models.Ticket;
 import ru.itmo.prog.lab5.utility.console.Console;
-import ru.itmo.prog.lab5.utility.console.StandardConsole;
+import ru.itmo.prog.lab5.utility.console.StandartConsole;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Управляет коллекцией билетов.
+ *
  * @author zevtos
  */
 public class TicketCollectionManager implements CollectionManager<Ticket> {
@@ -31,16 +32,33 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
     public TicketCollectionManager(DumpManager<Ticket> dumpManager, PersonCollectionManager personCollectionManager) {
         this.lastSaveTime = null;
         this.dumpManager = dumpManager;
-        boolean flag = (personCollectionManager == null);
 
         this.loadCollection();
-        if (flag) {
-            var personDumpManager = new DumpManager<Person>("data/persons.json", new StandardConsole(), Person.class);
+        if (personCollectionManager == null) {
+            var personDumpManager = new DumpManager<Person>("data/persons.json", new StandartConsole(), Person.class);
             personCollectionManager = new PersonCollectionManager(personDumpManager);
             personCollectionManager.loadCollection();
             personCollectionManager.addAll(this.getAllPersons());
         }
         this.personCollectionManager = personCollectionManager;
+    }
+
+    /**
+     * Создает менеджер коллекции билетов.
+     *
+     * @param console объект для взаимодействия с консолью
+     * @param args    аргументы командной строки
+     */
+    public TicketCollectionManager(Console console, String[] args) {
+        this.lastSaveTime = null;
+        this.dumpManager = new DumpManager<Ticket>(args[0], console, Ticket.class);
+        this.loadCollection();
+        if (args.length == 2) {
+            this.personCollectionManager = new PersonCollectionManager(console, args[1]);
+        } else {
+            this.personCollectionManager = new PersonCollectionManager(console);
+        }
+        this.personCollectionManager.addAll(this.getAllPersons());
     }
 
     public void validateAll(Console console) {
@@ -213,6 +231,7 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
                 }
                 collection.add(ticket);
             }
+            validateAll(dumpManager.getConsole());
             return true;
         } catch (DuplicateException e) {
             dumpManager.getConsole().printError("Ошибка загрузки коллекции: обнаружены дубликаты Ticket по полю id, загружены только первые значения.");
@@ -234,7 +253,7 @@ public class TicketCollectionManager implements CollectionManager<Ticket> {
 
         // Проходим по каждому билету и добавляем его персону в список всех персон
         for (Ticket ticket : tickets) {
-            if(ticket == null){
+            if (ticket == null) {
                 continue;
             }
             Person person = ticket.getPerson();

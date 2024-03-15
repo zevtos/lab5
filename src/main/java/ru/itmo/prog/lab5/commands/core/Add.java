@@ -36,7 +36,7 @@ public class Add extends Command {
      * @return Успешность выполнения команды
      */
     @Override
-    public boolean apply(String[] arguments) {
+    public boolean execute(String[] arguments) {
         try {
             if (arguments.length > 1 && !arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
             console.println("* Создание нового билета:");
